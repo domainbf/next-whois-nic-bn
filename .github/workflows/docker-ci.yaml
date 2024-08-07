@@ -2,29 +2,29 @@ name: Docker Image CI
 
 on:
   push:
-    branches: [ main ]  # 当推送到 main 分支时触发工作流
+    branches: [ main ]
 
 jobs:
   build:
-    runs-on: ubuntu-latest  # 使用最新的 Ubuntu 运行环境
+    runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v2  # 检出代码
+      - uses: actions/checkout@v2
 
       - name: Login to DockerHub
-        uses: docker/login-action@v1  # 使用 Docker 登录 Action
+        uses: docker/login-action@v2  # 更新到 v2
         with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}  # 从 Secrets 中引用 Docker Hub 用户名
-          password: ${{ secrets.DOCKERHUB_TOKEN }}      # 从 Secrets 中引用 Docker Hub 令牌
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v1  # 设置 Docker Buildx
+        uses: docker/setup-buildx-action@v1
 
       - name: Build and push Docker images
-        uses: docker/build-push-action@v2  # 使用 Docker Build 和 Push Action
+        uses: docker/build-push-action@v2
         with:
-          context: .                          # 构建���下文为当前目录
-          file: ./Dockerfile                  # 指定 Dockerfile 的路径
-          platforms: linux/amd64,linux/arm64 # 支持的目标平台
-          push: true                          # 推送构建的镜像
-          tags: programzmh/next-whois-ui:latest  # 镜像标签
+          context: .
+          file: ./Dockerfile
+          platforms: linux/amd64,linux/arm64
+          push: true
+          tags: programzmh/next-whois-ui:latest
