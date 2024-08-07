@@ -493,22 +493,14 @@ export default function Lookup({ data, target }: Props) {
     return () => {
       document.body.removeChild(script);
     };
-  }, [target]); // Dependency array to run effect when target changes
+  }, [target]);
 
   return (
-    <ScrollArea className="w-full h-full overflow-auto">
-      <main
-        className="relative w-full min-h-full grid place-items-center px-4 pt-20 pb-6"
-      >
-        <div
-          className="flex flex-col items-center w-full h-fit max-w-[568px] m-2"
-        >
-          <h1
-            className="text-lg md:text-2xl lg:text-3xl font-bold flex flex-row items-center select-none"
-          >
-            <Search
-              className="w-4 h-4 md:w-6 md:h-6 mr-1 md:mr-1.5 shrink-0"
-            />
+    <ScrollArea className="w-full h-full overflow-auto bg-black"> {/* 设置背景为黑色 */}
+      <main className="relative w-full min-h-full grid place-items-center px-4 pt-20 pb-6 bg-black"> {/* 设置框架背景为黑色 */}
+        <div className="flex flex-col items-center w-full h-fit max-w-[568px] m-2">
+          <h1 className="text-lg md:text-2xl lg:text-3xl font-bold flex flex-row items-center select-none text-white"> {/* 修改字体颜色为白色 */}
+            <Search className="w-4 h-4 md:w-6 md:h-6 mr-1 md:mr-1.5 shrink-0" />
             域名信息查询
           </h1>
           <p className="text-md text-center text-secondary">
@@ -552,9 +544,7 @@ export default function Lookup({ data, target }: Props) {
           </div>
           <ResultComp data={data} target={target} />
         </div>
-        <div
-          className="mt-12 text-sm flex flex-row items-center font-medium text-muted-foreground select-none"
-        >
+        <div className="mt-12 text-sm flex flex-row items-center font-medium text-muted-foreground select-none">
           © 2024 由{" "}
           <Link
             href="https://nic.bn"
@@ -565,8 +555,7 @@ export default function Lookup({ data, target }: Props) {
           </Link>
           运营
           <Badge variant="outline" className="ml-1">
-            <div className="w-2 h-2 shrink-0 rounded-full bg-black" /> {/* 黑色圆点 */}
-            <span className="ml-1">作者: Minghan Zhang</span> {/* 更新内容 */}
+            <span className="ml-1">作者: Minghan Zhang</span> {/* 去掉黑色圆点 */}
           </Badge>
           <Badge variant="outline">v{NAME}</Badge>  {/* 确保这里使用 NAME */}
         </div>
