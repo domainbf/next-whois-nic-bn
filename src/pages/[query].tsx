@@ -9,7 +9,7 @@ import {
 } from "@/lib/utils";
 import { NextPageContext } from "next";
 import { Input } from "@/components/ui/input";
-import { Link as NextLink } from "next/link"; // 使用别名导入 Link
+import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import {
   Camera,
@@ -153,7 +153,7 @@ function ResultTable({ result, target }: ResultTableProps) {
     return (
       <div className={`inline-flex flex-row items-center flex-wrap`}>
         {status.map((status, index) => (
-          <NextLink
+          <Link
             href={status.url}
             key={index}
             target={`_blank`}
@@ -174,7 +174,7 @@ function ResultTable({ result, target }: ResultTableProps) {
               />
             )}
             {status.status}
-          </NextLink>
+          </Link>
         ))}
       </div>
     );
@@ -205,7 +205,7 @@ function ResultTable({ result, target }: ResultTableProps) {
             value={result.ianaId}
             hidden={!result.ianaId || result.ianaId === "N/A"}
           >
-            <NextLink
+            <Link
               className={`inline-flex ml-1`}
               href={`https://www.internic.net/registrars/registrar-${result.ianaId ?? 0}.html`}
               target={`_blank`}
@@ -213,7 +213,7 @@ function ResultTable({ result, target }: ResultTableProps) {
               <Button variant={`ghost`} size={`icon-xs`}>
                 <ExternalLink className={`w-3 h-3`} />
               </Button>
-            </NextLink>
+            </Link>
           </Row>
 
           {/* IP Whois Only */}
@@ -357,16 +357,18 @@ function ResultTable({ result, target }: ResultTableProps) {
 const ResultComp = React.forwardRef<HTMLDivElement, Props>(
   ({ data, target, isCapture }: Props, ref) => {
     const copy = useClipboard();
+
     const captureObject = React.useRef<HTMLDivElement>(null);
     const capture = useImageCapture(captureObject);
 
-    const { status, result, error, time, price } = data; // 确保 price 包含在 data 中
+    const { status, result, error, time } = data;
 
     return (
       <div
         className={cn(
           "w-full h-fit mt-4",
-          isCapture && "flex flex-col items-center m-0 p-4 w-full bg-background"
+          isCapture &&
+            "flex flex-col items-center m-0 p-4 w-full bg-background",
         )}
       >
         <Card
@@ -374,14 +376,9 @@ const ResultComp = React.forwardRef<HTMLDivElement, Props>(
           className={cn("shadow", isCapture && "w-fit max-w-[768px]")}
         >
           <CardHeader>
-            {/* 新增的域名价格信息 */}
-            <div className="mb-2">
-              <h3 className="text-md font-semibold">域名价格信息</h3>
-              <p>注册价格: {price?.new} {price?.currency}</p>
-              <p>续费价格: {price?.renew} {price?.currency}</p>
-              <p>转入价格: {price?.transfer} {price?.currency}</p>
-            </div>
-            <CardTitle className={`flex flex-row items-center text-lg md:text-xl`}>
+            <CardTitle
+              className={`flex flex-row items-center text-lg md:text-xl`}
+            >
               详情如下:
               {!isCapture && (
                 <Drawer>
@@ -471,50 +468,31 @@ const ResultComp = React.forwardRef<HTMLDivElement, Props>(
         </Card>
       </div>
     );
-  }
+  },
 );
-
-
-// src/components/Lookup.tsx
-import React, { useEffect } from 'react';
-import { fetchWhoisData } from '../api/whois'; // 导入 Whois API 函数
-import { fetchDomainPrice } from '../api/nazhumi'; // 假设这是获取域名价格的 API 函数
-import { Button, Input as CustomInput, Loader2, Badge, Link, ScrollArea } from './YourComponentLibrary'; // 使用别名导入 Input
-import ResultComp from './ResultComp'; // 确保 ResultComp 组件的路径正确
-import { Search, Send, CornerDownRight } from 'lucide-react'; // 根据实际情况导入图标
-
-interface Props {
-  data: any; // 根据实际数据结构定义类型
-  target: string;
-}
 
 export default function Lookup({ data, target }: Props) {
   const [inputDomain, setInputDomain] = React.useState<string>(target);
   const [loading, setLoading] = React.useState<boolean>(false);
-  const [domainInfo, setDomainInfo] = React.useState<any>(null); // 新增状态存储域名信息
-  const [error, setError] = React.useState<string | null>(null); // 新增状态存储错误信息
 
-  const goStage = async (target: string) => {
+  const goStage = (target: string) => {
     setLoading(true);
-    setError(null); // 清除之前的错误信息
-
-    try {
-      // 获取域名价格信息
-      const priceData = await fetchDomainPrice(inputDomain);
-      // 获取 Whois 数据
-      const whoisData = await fetchWhoisData(inputDomain);
-      
-      // 更新状态
-      setDomainInfo({ price: priceData, whois: whoisData });
-    } catch (err) {
-      setError('获取域名信息失败，请重试。');
-    } finally {
-      setLoading(false);
-    }
+    window.location.href = toSearchURI(inputDomain);
   };
 
   useEffect(() => {
-    // 其他副作用逻辑
+    addHistory(target);
+
+    // Add tracking pixel script
+    const script = document.createElement("script");
+    script.src = "https://china.tn/pixel/vyneXbR4gSRGqFfs";
+    script.defer = true;
+    document.body.appendChild(script);
+
+    // Cleanup function to remove the script if needed
+    return () => {
+      document.body.removeChild(script);
+    };
   }, [target]); // Dependency array to run effect when target changes
 
   return (
@@ -529,13 +507,13 @@ export default function Lookup({ data, target }: Props) {
             请在下方输入要查找的域名或IP等信息
           </p>
           <div className="relative flex flex-row items-center w-full mt-2">
-            <CustomInput // 使用别名
+            <Input
               className="w-full text-center transition-all duration-300 hover:shadow"
               placeholder="domain name (e.g. google.com, 8.8.8.8)"
               value={inputDomain}
               onChange={(e) => setInputDomain(e.target.value)}
               onKeyDown={(e) => {
-                if (e.key === 'Enter') {
+                if (isEnter(e)) {
                   goStage(inputDomain);
                 }
               }}
@@ -554,15 +532,17 @@ export default function Lookup({ data, target }: Props) {
               )}
             </Button>
           </div>
-          {error && <p className="text-red-500">{error}</p>} {/* 显示错误信息 */}
-          {domainInfo && (
-            <ResultComp data={domainInfo} target={inputDomain} result="This is a placeholder result." /> // 将获取到的域名信息传递给 ResultComp
-          )}
-          <div className="flex items-center flex-row w-full text-xs mt-1.5 select-none text-secondary transition">
+          <div
+            className={cn(
+              "flex items-center flex-row w-full text-xs mt-1.5 select-none text-secondary transition",
+              loading && "text-primary"
+            )}
+          >
             <div className="flex-grow" />
             <CornerDownRight className="w-3 h-3 mr-1" />
             <p className="px-1 py-0.5 border rounded-md">Enter</p>
           </div>
+          <ResultComp data={data} target={target} />
         </div>
         <div className="mt-12 text-sm flex flex-row items-center font-medium text-muted-foreground select-none">
           © 2024 由{" "}
@@ -575,9 +555,9 @@ export default function Lookup({ data, target }: Props) {
           </Link>
           运营
           <Badge variant="outline" className="ml-1" style={{ backgroundColor: 'black', color: 'white' }}>
-            <span className="ml-1">作者: Minghan Zhang</span>
+            <span className="ml-1">作者: Minghan Zhang</span> {/* 更新内容 */}
           </Badge>
-          <Badge variant="outline">v{NAME}</Badge>
+          <Badge variant="outline">v{NAME}</Badge>  {/* 确保这里使用 NAME */}
         </div>
       </main>
     </ScrollArea>
