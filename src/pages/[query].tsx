@@ -563,7 +563,7 @@ export default function Lookup({ data, target }: Props) {
           >
             NIC.BN
           </Link>
-          鸣谢作者：Minghan Zhang
+          Author: Minghan Zhang
           <Badge variant="outline">v{VERSION}</Badge>
         </div>
       </main>
