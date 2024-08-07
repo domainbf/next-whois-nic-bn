@@ -9,7 +9,7 @@ import {
 } from "@/lib/utils";
 import { NextPageContext } from "next";
 import { Input } from "@/components/ui/input";
-import Link from "next/link";
+import { Link as NextLink } from "next/link"; // 使用别名导入 Link
 import { Button } from "@/components/ui/button";
 import {
   Camera,
@@ -153,7 +153,7 @@ function ResultTable({ result, target }: ResultTableProps) {
     return (
       <div className={`inline-flex flex-row items-center flex-wrap`}>
         {status.map((status, index) => (
-          <Link
+          <NextLink
             href={status.url}
             key={index}
             target={`_blank`}
@@ -174,7 +174,7 @@ function ResultTable({ result, target }: ResultTableProps) {
               />
             )}
             {status.status}
-          </Link>
+          </NextLink>
         ))}
       </div>
     );
@@ -205,7 +205,7 @@ function ResultTable({ result, target }: ResultTableProps) {
             value={result.ianaId}
             hidden={!result.ianaId || result.ianaId === "N/A"}
           >
-            <Link
+            <NextLink
               className={`inline-flex ml-1`}
               href={`https://www.internic.net/registrars/registrar-${result.ianaId ?? 0}.html`}
               target={`_blank`}
@@ -213,7 +213,7 @@ function ResultTable({ result, target }: ResultTableProps) {
               <Button variant={`ghost`} size={`icon-xs`}>
                 <ExternalLink className={`w-3 h-3`} />
               </Button>
-            </Link>
+            </NextLink>
           </Row>
 
           {/* IP Whois Only */}
@@ -473,6 +473,7 @@ const ResultComp = React.forwardRef<HTMLDivElement, Props>(
     );
   }
 );
+
 
 // src/components/Lookup.tsx
 import React, { useEffect } from 'react';
