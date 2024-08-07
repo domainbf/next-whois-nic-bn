@@ -40,7 +40,7 @@ import { addHistory } from "@/lib/history";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { VERSION } from "@/lib/env";
+import { NAME } from "@/lib/env";  // 更改 VERSION 为 NAME
 import { WhoisAnalyzeResult, WhoisResult } from "@/lib/whois/types";
 import Icon from "@/components/icon";
 import { useImageCapture } from "@/lib/image";
@@ -564,7 +564,7 @@ export default function Lookup({ data, target }: Props) {
             NIC.BN
           </Link>
           运营
-          <Badge variant="outline">v{NAME}</Badge>
+          <Badge variant="outline">v{NAME}</Badge>  {/* 确保这里使用 NAME */}
         </div>
       </main>
     </ScrollArea>
