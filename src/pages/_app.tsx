@@ -30,7 +30,12 @@ const siteKeywords = strEnv(
 // 使用本地图片
 const siteImage = "/gg.gif"; // 相对路径指向 public 文件夹中的图片
 
-const announcements = [
+interface Announcement {
+  text: string;
+  link?: string;
+}
+
+const announcements: Announcement[] = [
   { text: "我们不存储不记录查询记录" },
   { text: "问题及反馈可发至：a@f.af" },
   { text: "我们不存储不记录所有查询内容" },
@@ -113,7 +118,7 @@ export default function App({ Component, pageProps }: AppProps) {
             )}
           >
             <ThemeToggle />
-            <Link href={`https://domain.bf`} target={`_blank`}>
+            <Link href={`https://domain.bf`} passHref>
               <Button variant={`outline`} size={`icon`} tapEnabled>
                 <svg
                   role="img"
@@ -123,7 +128,6 @@ export default function App({ Component, pageProps }: AppProps) {
                 >
                   <title>Earth</title>
                   <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm1-13h-2v6h2V7zm0 8h-2v2h2v-2z" />
-                  <path d="M12 4c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3zm0 10c-2.67 0-5-2.33-5-5s2.33-5 5-5 5 2.33 5 5-2.33 5-5 5z" />
                 </svg>
               </Button>
             </Link>
