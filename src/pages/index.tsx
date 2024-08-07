@@ -52,7 +52,7 @@ export default function Home() {
           }
         >
           <Search className={`w-4 h-4 md:w-6 md:h-6 mr-1 md:mr-1.5 shrink-0`} />
-          Whois Lookup
+          WHOIS.LS
         </h1>
         <div
           className={"flex flex-row items-center flex-wrap justify-center mt-1"}
@@ -110,6 +110,7 @@ export default function Home() {
                 window.location.href = toSearchURI(domain);
               }
             }}
+            style={{ fontSize: '16px' }} // 确保在移动端输入时不会缩放
           />
           <Link
             href={toSearchURI(domain)}
