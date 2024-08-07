@@ -555,7 +555,7 @@ export default function Lookup({ data, target }: Props) {
         <div
           className="mt-12 text-sm flex flex-row items-center font-medium text-muted-foreground select-none"
         >
-          Maintained by{" "}
+          © 2024 by{" "}
           <Link
             href="https://nic.bn"
             target="_blank"
@@ -563,7 +563,7 @@ export default function Lookup({ data, target }: Props) {
           >
             NIC.BN
           </Link>
-          Author: Minghan Zhang
+          运营
           <Badge variant="outline">v{VERSION}</Badge>
         </div>
       </main>
