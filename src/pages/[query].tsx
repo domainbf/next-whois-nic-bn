@@ -1,4 +1,4 @@
-import { lookupWhoisWithCache } from "@/lib/whois/lookup";
+import { lookupWhois } from "@/lib/whois/lookup";
 import {
   cleanDomainQuery,
   cn,
@@ -61,7 +61,7 @@ export async function getServerSideProps(context: NextPageContext) {
 
   return {
     props: {
-      data: await lookupWhoisWithCache(target),
+      data: await lookupWhois(target),
       target,
     },
   };
@@ -187,21 +187,21 @@ function ResultTable({ result, target }: ResultTableProps) {
     result && (
       <table className={`w-full text-sm mb-4 whitespace-pre-wrap`}>
         <tbody>
-          <Row name={`Name`} value={result.domain || target.toUpperCase()} />
-          <Row name={`Status`} value={<StatusComp />} />
+          <Row name={`域名:`} value={result.domain || target.toUpperCase()} />
+          <Row name={`状态:`} value={<StatusComp />} />
           <Row
-            name={`Registrar`}
+            name={`注册商:`}
             value={result.registrar}
             hidden={!result.registrar || result.registrar === "Unknown"}
           />
           <Row
-            name={`Registrar URL`}
+            name={`网址:`}
             value={result.registrarURL}
             likeLink
             hidden={!result.registrarURL || result.registrarURL === "Unknown"}
           />
           <Row
-            name={`IANA ID`}
+            name={`注册商ID:`}
             value={result.ianaId}
             hidden={!result.ianaId || result.ianaId === "N/A"}
           >
@@ -255,28 +255,28 @@ function ResultTable({ result, target }: ResultTableProps) {
           {/* IP Whois Only End */}
 
           <Row
-            name={`Whois Server`}
+            name={`WHOIS:`}
             value={result.whoisServer}
             likeLink
             hidden={!result.whoisServer || result.whoisServer === "Unknown"}
           />
 
           <Row
-            name={`Creation Date`}
+            name={`注册日期:`}
             value={toReadableISODate(result.creationDate)}
             hidden={!result.creationDate || result.creationDate === "Unknown"}
           >
             <InfoText content={`UTC`} />
           </Row>
           <Row
-            name={`Updated Date`}
+            name={`更新日期:`}
             value={toReadableISODate(result.updatedDate)}
             hidden={!result.updatedDate || result.updatedDate === "Unknown"}
           >
             <InfoText content={`UTC`} />
           </Row>
           <Row
-            name={`Expiration Date`}
+            name={`到期日期:`}
             value={toReadableISODate(result.expirationDate)}
             hidden={
               !result.expirationDate || result.expirationDate === "Unknown"
@@ -285,7 +285,7 @@ function ResultTable({ result, target }: ResultTableProps) {
             <InfoText content={`UTC`} />
           </Row>
           <Row
-            name={`Registrant Organization`}
+            name={`登记人:`}
             value={result.registrantOrganization}
             hidden={
               !result.registrantOrganization ||
@@ -293,7 +293,7 @@ function ResultTable({ result, target }: ResultTableProps) {
             }
           />
           <Row
-            name={`Registrant Province`}
+            name={`地址:`}
             value={result.registrantProvince}
             hidden={
               !result.registrantProvince ||
@@ -301,7 +301,7 @@ function ResultTable({ result, target }: ResultTableProps) {
             }
           />
           <Row
-            name={`Registrant Country`}
+            name={`国家:`}
             value={result.registrantCountry}
             hidden={
               !result.registrantCountry ||
@@ -309,7 +309,7 @@ function ResultTable({ result, target }: ResultTableProps) {
             }
           />
           <Row
-            name={`Registrant Phone`}
+            name={`联系电话:`}
             value={result.registrantPhone}
             hidden={
               !result.registrantPhone || result.registrantPhone === "Unknown"
@@ -318,14 +318,14 @@ function ResultTable({ result, target }: ResultTableProps) {
             <InfoText content={`Abuse`} />
           </Row>
           <Row
-            name={`Registrant Email`}
+            name={`联系邮箱:`}
             value={result.registrantEmail}
             hidden={
               !result.registrantEmail || result.registrantEmail === "Unknown"
             }
           />
           <Row
-            name={`Name Servers`}
+            name={`域名DNS:`}
             value={
               <div className={`flex flex-col`}>
                 {result.nameServers.map((ns, index) => (
@@ -342,7 +342,7 @@ function ResultTable({ result, target }: ResultTableProps) {
             }
             hidden={result.nameServers.length === 0}
           />
-          <Row name={`DNSSEC`} value={result.dnssec} hidden={!result.dnssec}>
+          <Row name={`DNSSEC:`} value={result.dnssec} hidden={!result.dnssec}>
             <Icon
               className={`inline w-3.5 h-3.5 ml-1.5`}
               icon={getDnssecIcon(result.dnssec)}
@@ -379,7 +379,7 @@ const ResultComp = React.forwardRef<HTMLDivElement, Props>(
             <CardTitle
               className={`flex flex-row items-center text-lg md:text-xl`}
             >
-              Result
+              详情如下:
               {!isCapture && (
                 <Drawer>
                   <DrawerTrigger asChild>
@@ -394,7 +394,7 @@ const ResultComp = React.forwardRef<HTMLDivElement, Props>(
                   </DrawerTrigger>
                   <DrawerContent>
                     <DrawerHeader>
-                      <DrawerTitle>Result Capture</DrawerTitle>
+                      <DrawerTitle>域名卡片</DrawerTitle>
                       <DrawerClose />
                     </DrawerHeader>
                     <div className={`my-2`}>
@@ -413,7 +413,7 @@ const ResultComp = React.forwardRef<HTMLDivElement, Props>(
                         tapEnabled
                       >
                         <Camera className={`w-4 h-4 mr-2`} />
-                        Capture
+                        点击下载
                       </Button>
                     </DrawerFooter>
                   </DrawerContent>
@@ -456,7 +456,7 @@ const ResultComp = React.forwardRef<HTMLDivElement, Props>(
                   {!isCapture && (
                     <RichTextarea
                       className={`mt-2`}
-                      name={`Raw Whois Response`}
+                      name={`原始whois数据可复制及下载👉`}
                       value={result?.rawWhoisContent}
                       saveFileName={`${target.replace(/\./g, "-")}-whois.txt`}
                     />
@@ -504,10 +504,10 @@ export default function Lookup({ data, target }: Props) {
             <Search
               className={`w-4 h-4 md:w-6 md:h-6 mr-1 md:mr-1.5 shrink-0`}
             />
-            Whois Lookup
+            域名信息查询
           </h1>
           <p className={"text-md text-center text-secondary"}>
-            Please enter a domain name to lookup
+            请在下方输入要查找的域名或IP等信息
           </p>
           <div className={"relative flex flex-row items-center w-full mt-2"}>
             <Input
@@ -551,11 +551,11 @@ export default function Lookup({ data, target }: Props) {
         >
           Powered by{" "}
           <Link
-            href={`https://github.com/zmh-program/next-whois-ui`}
+            href={`https://nic.bn`}
             target={`_blank`}
             className={`text-primary underline underline-offset-2 mx-1`}
           >
-            Next Whois UI
+            NIC.BN
           </Link>
           <Badge variant={`outline`}>v{VERSION}</Badge>
         </div>
