@@ -40,7 +40,7 @@ import { addHistory } from "@/lib/history";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { VERSION } from "@/lib/env";
+import { NAME } from "@/lib/env";  // 更改 VERSION 为 NAME
 import { WhoisAnalyzeResult, WhoisResult } from "@/lib/whois/types";
 import Icon from "@/components/icon";
 import { useImageCapture } from "@/lib/image";
@@ -223,17 +223,17 @@ function ResultTable({ result, target }: ResultTableProps) {
             hidden={!result.cidr || result.cidr === "Unknown"}
           />
           <Row
-            name={`Net Type`}
+            name={`类型`}
             value={result.netType}
             hidden={!result.netType || result.netType === "Unknown"}
           />
           <Row
-            name={`Net Name`}
+            name={`公司`}
             value={result.netName}
             hidden={!result.netName || result.netName === "Unknown"}
           />
           <Row
-            name={`INet Num`}
+            name={`IP段`}
             value={result.inetNum}
             hidden={!result.inetNum || result.inetNum === "Unknown"}
           />
@@ -243,12 +243,12 @@ function ResultTable({ result, target }: ResultTableProps) {
             hidden={!result.inet6Num || result.inet6Num === "Unknown"}
           />
           <Row
-            name={`Net Range`}
+            name={`范围`}
             value={result.netRange}
             hidden={!result.netRange || result.netRange === "Unknown"}
           />
           <Row
-            name={`Origin AS`}
+            name={`源地`}
             value={result.originAS}
             hidden={!result.originAS || result.originAS === "Unknown"}
           />
@@ -293,7 +293,7 @@ function ResultTable({ result, target }: ResultTableProps) {
             }
           />
           <Row
-            name={`地址:`}
+            name={`城市地址:`}
             value={result.registrantProvince}
             hidden={
               !result.registrantProvince ||
@@ -301,7 +301,7 @@ function ResultTable({ result, target }: ResultTableProps) {
             }
           />
           <Row
-            name={`国家:`}
+            name={`国家代码:`}
             value={result.registrantCountry}
             hidden={
               !result.registrantCountry ||
@@ -496,34 +496,28 @@ export default function Lookup({ data, target }: Props) {
   }, [target]); // Dependency array to run effect when target changes
 
   return (
-    <ScrollArea className={`w-full h-full`}>
+    <ScrollArea className="w-full h-full overflow-auto">
       <main
-        className={
-          "relative w-full min-h-full grid place-items-center px-4 pt-20 pb-6"
-        }
+        className="relative w-full min-h-full grid place-items-center px-4 pt-20 pb-6"
       >
         <div
-          className={
-            "flex flex-col items-center w-full h-fit max-w-[568px] m-2"
-          }
+          className="flex flex-col items-center w-full h-fit max-w-[568px] m-2"
         >
           <h1
-            className={
-              "text-lg md:text-2xl lg:text-3xl font-bold flex flex-row items-center select-none"
-            }
+            className="text-lg md:text-2xl lg:text-3xl font-bold flex flex-row items-center select-none"
           >
             <Search
-              className={`w-4 h-4 md:w-6 md:h-6 mr-1 md:mr-1.5 shrink-0`}
+              className="w-4 h-4 md:w-6 md:h-6 mr-1 md:mr-1.5 shrink-0"
             />
             域名信息查询
           </h1>
-          <p className={"text-md text-center text-secondary"}>
+          <p className="text-md text-center text-secondary">
             请在下方输入要查找的域名或IP等信息
           </p>
-          <div className={"relative flex flex-row items-center w-full mt-2"}>
+          <div className="relative flex flex-row items-center w-full mt-2">
             <Input
-              className={`w-full text-center transition-all duration-300 hover:shadow`}
-              placeholder={`domain name (e.g. google.com, 8.8.8.8)`}
+              className="w-full text-center transition-all duration-300 hover:shadow"
+              placeholder="domain name (e.g. google.com, 8.8.8.8)"
               value={inputDomain}
               onChange={(e) => setInputDomain(e.target.value)}
               onKeyDown={(e) => {
@@ -531,45 +525,50 @@ export default function Lookup({ data, target }: Props) {
                   goStage(inputDomain);
                 }
               }}
+              style={{ flexShrink: 0 }} // 确保输入框不缩放
             />
             <Button
-              size={`icon`}
-              variant={`outline`}
-              className={`absolute right-0 rounded-l-none`}
+              size="icon"
+              variant="outline"
+              className="absolute right-0 rounded-l-none"
               onClick={() => goStage(inputDomain)}
             >
               {loading ? (
-                <Loader2 className={`w-4 h-4 animate-spin`} />
+                <Loader2 className="w-4 h-4 animate-spin" />
               ) : (
-                <Send className={`w-4 h-4`} />
+                <Send className="w-4 h-4" />
               )}
             </Button>
           </div>
           <div
             className={cn(
-              `flex items-center flex-row w-full text-xs mt-1.5 select-none text-secondary transition`,
-              loading && "text-primary",
+              "flex items-center flex-row w-full text-xs mt-1.5 select-none text-secondary transition",
+              loading && "text-primary"
             )}
           >
-            <div className={`flex-grow`} />
-            <CornerDownRight className={`w-3 h-3 mr-1`} />
-            <p className={`px-1 py-0.5 border rounded-md`}>Enter</p>
+            <div className="flex-grow" />
+            <CornerDownRight className="w-3 h-3 mr-1" />
+            <p className="px-1 py-0.5 border rounded-md">Enter</p>
           </div>
           <ResultComp data={data} target={target} />
         </div>
         <div
-          className={`mt-12 text-sm flex flex-row items-center font-medium text-muted-foreground select-none`}
+          className="mt-12 text-sm flex flex-row items-center font-medium text-muted-foreground select-none"
         >
-          Powered by{" "}
+          © 2024 由{" "}
           <Link
-            href={`https://nic.bn`}
-            target={`_blank`}
-            className={`text-primary underline underline-offset-2 mx-1`}
+            href="https://nic.bn"
+            target="_blank"
+            className="text-primary underline underline-offset-2 mx-1"
           >
             NIC.BN
           </Link>
-          鸣谢作者：Minghan Zhang
-          <Badge variant={`outline`}>v{VERSION}</Badge>
+          运营
+          <Badge variant="outline" className="ml-1">
+            <div className="w-2 h-2 shrink-0 rounded-full bg-black" /> {/* 黑色圆点 */}
+            <span className="ml-1">作者: Minghan Zhang</span> {/* 更新内容 */}
+          </Badge>
+          <Badge variant="outline">v{NAME}</Badge>  {/* 确保这里使用 NAME */}
         </div>
       </main>
     </ScrollArea>
