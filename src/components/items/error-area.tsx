@@ -16,7 +16,7 @@ export default function ErrorArea({ error }: ErrorAreaProps) {
     >
       <div className={`text-md inline-flex flex-row items-center`}>
         <CircleX className={`w-3.5 h-3.5 mr-1`} />
-        Lookup Failed
+        哎呦，你触碰到我的盲区啦。
       </div>
       <div className={`text-sm mt-2 text-center`}>
         <div
