@@ -6,12 +6,6 @@ import { getDomain } from "tldjs";
 import { ParsedUrlQuery } from "node:querystring";
 import { getSpecialDomain } from "@/lib/whois/lib";
 
-// src/utils.ts
-export function strEnv(variable: string, fallback: string): string {
-  const value = process.env[variable];
-  return value !== undefined ? value : fallback;
-}
-
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
