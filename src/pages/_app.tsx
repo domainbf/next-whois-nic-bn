@@ -8,7 +8,6 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { ThemeProvider } from "@/components/theme-provider";
 import { ThemeToggle } from "@/components/theme-switch";
-import { strEnv } from "@/lib/env";
 
 const siteTitle = strEnv("NEXT_PUBLIC_SITE_TITLE", "Whois");
 const siteDescription = strEnv(
