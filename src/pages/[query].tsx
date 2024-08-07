@@ -29,7 +29,6 @@ import {
   Drawer,
   DrawerClose,
   DrawerContent,
-  DrawerDescription,
   DrawerFooter,
   DrawerHeader,
   DrawerTitle,
@@ -40,7 +39,7 @@ import { addHistory } from "@/lib/history";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { NAME } from "@/lib/env";  // 更改 VERSION 为 NAME
+import { NAME } from "@/lib/env";  // 确保 NAME 正确导入
 import { WhoisAnalyzeResult, WhoisResult } from "@/lib/whois/types";
 import Icon from "@/components/icon";
 import { useImageCapture } from "@/lib/image";
@@ -104,22 +103,20 @@ function ResultTable({ result, target }: ResultTableProps) {
   }) =>
     !hidden && (
       <tr>
-        <td
-          className={`py-1 pr-2 text-right font-medium text-secondary whitespace-pre-wrap md:w-36`}
-        >
+        <td className="py-1 pr-2 text-right font-medium text-secondary whitespace-pre-wrap md:w-36">
           {name}
         </td>
         <td
           className={cn(
-            `py-1 pl-2 text-left text-primary whitespace-pre-wrap break-all`,
-            likeLink && `cursor-pointer hover:underline`,
+            "py-1 pl-2 text-left text-primary whitespace-pre-wrap break-all",
+            likeLink && "cursor-pointer hover:underline"
           )}
           onClick={() => {
             if (likeLink) {
               window.open(
                 value.startsWith("http") ? value : `http://${value}`,
                 "_blank",
-                "noopener,noreferrer",
+                "noopener,noreferrer"
               );
             }
           }}
@@ -129,6 +126,8 @@ function ResultTable({ result, target }: ResultTableProps) {
         </td>
       </tr>
     );
+
+  const [expand, setExpand] = React.useState<boolean>(false);
 
   const StatusComp = () => {
     if (!result || result.status.length === 0) {
@@ -146,18 +145,17 @@ function ResultTable({ result, target }: ResultTableProps) {
           },
         ];
       }
-
       return result.status;
-    }, [result.status]);
+    }, [result.status, expand]);
 
     return (
-      <div className={`inline-flex flex-row items-center flex-wrap`}>
+      <div className="inline-flex flex-row items-center flex-wrap">
         {status.map((status, index) => (
           <Link
             href={status.url}
             key={index}
-            target={`_blank`}
-            className={`inline-flex group flex-row whitespace-nowrap flex-nowrap items-center m-0.5 cursor-pointer px-1 py-0.5 border rounded text-xs`}
+            target="_blank"
+            className="inline-flex group flex-row whitespace-nowrap items-center m-0.5 cursor-pointer px-1 py-0.5 border rounded text-xs"
             onClick={(e) => {
               if (status.url === "expand") {
                 e.preventDefault();
@@ -170,7 +168,7 @@ function ResultTable({ result, target }: ResultTableProps) {
             {status.url !== "expand" && (
               <Icon
                 icon={status.url ? <Link2 /> : <Unlink2 />}
-                className={`w-3 h-3 mr-1 shrink-0 text-muted-foreground transition group-hover:text-primary`}
+                className="w-3 h-3 mr-1 shrink-0 text-muted-foreground transition group-hover:text-primary"
               />
             )}
             {status.status}
@@ -180,161 +178,143 @@ function ResultTable({ result, target }: ResultTableProps) {
     );
   };
 
-  const [expand, setExpand] = React.useState<boolean>(false);
-  const copy = useClipboard();
-
   return (
     result && (
-      <table className={`w-full text-sm mb-4 whitespace-pre-wrap`}>
+      <table className="w-full text-sm mb-4 whitespace-pre-wrap">
         <tbody>
-          <Row name={`域名:`} value={result.domain || target.toUpperCase()} />
-          <Row name={`状态:`} value={<StatusComp />} />
+          <Row name="域名:" value={result.domain || target.toUpperCase()} />
+          <Row name="状态:" value={<StatusComp />} />
           <Row
-            name={`注册商:`}
+            name="注册商:"
             value={result.registrar}
             hidden={!result.registrar || result.registrar === "Unknown"}
           />
           <Row
-            name={`网址:`}
+            name="网址:"
             value={result.registrarURL}
             likeLink
             hidden={!result.registrarURL || result.registrarURL === "Unknown"}
           />
           <Row
-            name={`注册商ID:`}
+            name="注册商ID:"
             value={result.ianaId}
             hidden={!result.ianaId || result.ianaId === "N/A"}
           >
             <Link
-              className={`inline-flex ml-1`}
+              className="inline-flex ml-1"
               href={`https://www.internic.net/registrars/registrar-${result.ianaId ?? 0}.html`}
-              target={`_blank`}
+              target="_blank"
             >
-              <Button variant={`ghost`} size={`icon-xs`}>
-                <ExternalLink className={`w-3 h-3`} />
+              <Button variant="ghost" size="icon-xs">
+                <ExternalLink className="w-3 h-3" />
               </Button>
             </Link>
           </Row>
 
           {/* IP Whois Only */}
           <Row
-            name={`CIDR`}
+            name="CIDR"
             value={result.cidr}
             hidden={!result.cidr || result.cidr === "Unknown"}
           />
           <Row
-            name={`类型`}
+            name="类型"
             value={result.netType}
             hidden={!result.netType || result.netType === "Unknown"}
           />
           <Row
-            name={`公司`}
+            name="公司"
             value={result.netName}
             hidden={!result.netName || result.netName === "Unknown"}
           />
           <Row
-            name={`IP段`}
+            name="IP段"
             value={result.inetNum}
             hidden={!result.inetNum || result.inetNum === "Unknown"}
           />
           <Row
-            name={`INet6 Num`}
+            name="INet6 Num"
             value={result.inet6Num}
             hidden={!result.inet6Num || result.inet6Num === "Unknown"}
           />
           <Row
-            name={`范围`}
+            name="范围"
             value={result.netRange}
             hidden={!result.netRange || result.netRange === "Unknown"}
           />
           <Row
-            name={`源地`}
+            name="源地"
             value={result.originAS}
             hidden={!result.originAS || result.originAS === "Unknown"}
           />
           {/* IP Whois Only End */}
 
           <Row
-            name={`WHOIS:`}
+            name="WHOIS:"
             value={result.whoisServer}
             likeLink
             hidden={!result.whoisServer || result.whoisServer === "Unknown"}
           />
 
           <Row
-            name={`注册日期:`}
+            name="注册日期:"
             value={toReadableISODate(result.creationDate)}
             hidden={!result.creationDate || result.creationDate === "Unknown"}
           >
-            <InfoText content={`UTC`} />
+            <InfoText content="UTC" />
           </Row>
           <Row
-            name={`更新日期:`}
+            name="更新日期:"
             value={toReadableISODate(result.updatedDate)}
             hidden={!result.updatedDate || result.updatedDate === "Unknown"}
           >
-            <InfoText content={`UTC`} />
+            <InfoText content="UTC" />
           </Row>
           <Row
-            name={`到期日期:`}
+            name="到期日期:"
             value={toReadableISODate(result.expirationDate)}
-            hidden={
-              !result.expirationDate || result.expirationDate === "Unknown"
-            }
+            hidden={!result.expirationDate || result.expirationDate === "Unknown"}
           >
-            <InfoText content={`UTC`} />
+            <InfoText content="UTC" />
           </Row>
           <Row
-            name={`登记人:`}
+            name="登记人:"
             value={result.registrantOrganization}
-            hidden={
-              !result.registrantOrganization ||
-              result.registrantOrganization === "Unknown"
-            }
+            hidden={!result.registrantOrganization || result.registrantOrganization === "Unknown"}
           />
           <Row
-            name={`城市地址:`}
+            name="城市地址:"
             value={result.registrantProvince}
-            hidden={
-              !result.registrantProvince ||
-              result.registrantProvince === "Unknown"
-            }
+            hidden={!result.registrantProvince || result.registrantProvince === "Unknown"}
           />
           <Row
-            name={`国家代码:`}
+            name="国家代码:"
             value={result.registrantCountry}
-            hidden={
-              !result.registrantCountry ||
-              result.registrantCountry === "Unknown"
-            }
+            hidden={!result.registrantCountry || result.registrantCountry === "Unknown"}
           />
           <Row
-            name={`联系电话:`}
+            name="联系电话:"
             value={result.registrantPhone}
-            hidden={
-              !result.registrantPhone || result.registrantPhone === "Unknown"
-            }
+            hidden={!result.registrantPhone || result.registrantPhone === "Unknown"}
           >
-            <InfoText content={`Abuse`} />
+            <InfoText content="Abuse" />
           </Row>
           <Row
-            name={`联系邮箱:`}
+            name="联系邮箱:"
             value={result.registrantEmail}
-            hidden={
-              !result.registrantEmail || result.registrantEmail === "Unknown"
-            }
+            hidden={!result.registrantEmail || result.registrantEmail === "Unknown"}
           />
           <Row
-            name={`域名DNS:`}
+            name="域名DNS:"
             value={
-              <div className={`flex flex-col`}>
+              <div className="flex flex-col">
                 {result.nameServers.map((ns, index) => (
                   <div
                     key={index}
-                    className={`text-secondary hover:text-primary transition duration-500 text-xs border cursor-pointer rounded-md px-1 py-0.5 mt-0.5 w-fit inline-flex flex-row items-center`}
+                    className="text-secondary hover:text-primary transition duration-500 text-xs border cursor-pointer rounded-md px-1 py-0.5 mt-0.5 w-fit inline-flex flex-row items-center"
                     onClick={() => copy(ns)}
                   >
-                    <CopyIcon className={`w-2.5 h-2.5 mr-1`} />
+                    <CopyIcon className="w-2.5 h-2.5 mr-1" />
                     {ns}
                   </div>
                 ))}
@@ -342,9 +322,9 @@ function ResultTable({ result, target }: ResultTableProps) {
             }
             hidden={result.nameServers.length === 0}
           />
-          <Row name={`DNSSEC:`} value={result.dnssec} hidden={!result.dnssec}>
+          <Row name="DNSSEC:" value={result.dnssec} hidden={!result.dnssec}>
             <Icon
-              className={`inline w-3.5 h-3.5 ml-1.5`}
+              className="inline w-3.5 h-3.5 ml-1.5"
               icon={getDnssecIcon(result.dnssec)}
             />
           </Row>
@@ -357,18 +337,15 @@ function ResultTable({ result, target }: ResultTableProps) {
 const ResultComp = React.forwardRef<HTMLDivElement, Props>(
   ({ data, target, isCapture }: Props, ref) => {
     const copy = useClipboard();
-
     const captureObject = React.useRef<HTMLDivElement>(null);
     const capture = useImageCapture(captureObject);
-
     const { status, result, error, time } = data;
 
     return (
       <div
         className={cn(
           "w-full h-fit mt-4",
-          isCapture &&
-            "flex flex-col items-center m-0 p-4 w-full bg-background",
+          isCapture && "flex flex-col items-center m-0 p-4 w-full bg-background"
         )}
       >
         <Card
@@ -376,20 +353,18 @@ const ResultComp = React.forwardRef<HTMLDivElement, Props>(
           className={cn("shadow", isCapture && "w-fit max-w-[768px]")}
         >
           <CardHeader>
-            <CardTitle
-              className={`flex flex-row items-center text-lg md:text-xl`}
-            >
+            <CardTitle className="flex flex-row items-center text-lg md:text-xl">
               详情如下:
               {!isCapture && (
                 <Drawer>
                   <DrawerTrigger asChild>
                     <Button
-                      variant={`outline`}
-                      size={`icon-sm`}
-                      className={`ml-2`}
+                      variant="outline"
+                      size="icon-sm"
+                      className="ml-2"
                       tapEnabled
                     >
-                      <Camera className={`w-4 h-4`} />
+                      <Camera className="w-4 h-4" />
                     </Button>
                   </DrawerTrigger>
                   <DrawerContent>
@@ -397,7 +372,7 @@ const ResultComp = React.forwardRef<HTMLDivElement, Props>(
                       <DrawerTitle>域名卡片</DrawerTitle>
                       <DrawerClose />
                     </DrawerHeader>
-                    <div className={`my-2`}>
+                    <div className="my-2">
                       <ResultComp
                         data={data}
                         target={target}
@@ -407,56 +382,55 @@ const ResultComp = React.forwardRef<HTMLDivElement, Props>(
                     </div>
                     <DrawerFooter>
                       <Button
-                        variant={`outline`}
+                        variant="outline"
                         onClick={() => capture(`whois-${target}`)}
-                        className={`flex flex-row items-center w-full max-w-[768px] mx-auto`}
+                        className="flex flex-row items-center w-full max-w-[768px] mx-auto"
                         tapEnabled
                       >
-                        <Camera className={`w-4 h-4 mr-2`} />
+                        <Camera className="w-4 h-4 mr-2" />
                         点击下载
                       </Button>
                     </DrawerFooter>
                   </DrawerContent>
                 </Drawer>
               )}
-              <div className={`flex-grow`} />
-              <Clickable className={`w-fit h-fit inline-flex ml-2 mr-1`}>
+              <div className="flex-grow" />
+              <Clickable className="w-fit h-fit inline-flex ml-2 mr-1">
                 <Badge
                   className={cn(
-                    `inline-flex max-w-36 md:max-w-64 flex-row items-center space-x-1 cursor-pointer select-none`,
-                    isCapture && "max-w-72",
+                    "inline-flex max-w-36 md:max-w-64 flex-row items-center space-x-1 cursor-pointer select-none",
+                    isCapture && "max-w-72"
                   )}
                   onClick={() => copy(target)}
                 >
                   <div
                     className={cn(
                       "w-2 h-2 shrink-0 rounded-full",
-                      status ? "bg-green-500" : "bg-red-500",
+                      status ? "bg-green-500" : "bg-red-500"
                     )}
                   />
                   <p
                     className={cn(
-                      `grow`,
-                      !isCapture && `text-ellipsis overflow-hidden`,
+                      "grow",
+                      !isCapture && "text-ellipsis overflow-hidden"
                     )}
                   >
                     {target}
                   </p>
                 </Badge>
               </Clickable>
-              <Badge variant={`outline`}>{time.toFixed(2)}s</Badge>
+              <Badge variant="outline">{time.toFixed(2)}s</Badge>
             </CardTitle>
-            <CardContent className={`w-full p-0`}>
+            <CardContent className="w-full p-0">
               {!status ? (
                 <ErrorArea error={error} />
               ) : (
-                <div className={`flex flex-col h-fit w-full mt-2`}>
+                <div className="flex flex-col h-fit w-full mt-2">
                   <ResultTable result={result} target={target} />
-
                   {!isCapture && (
                     <RichTextarea
-                      className={`mt-2`}
-                      name={`原始whois数据可复制及下载👉`}
+                      className="mt-2"
+                      name="原始whois数据可复制及下载👉"
                       value={result?.rawWhoisContent}
                       saveFileName={`${target.replace(/\./g, "-")}-whois.txt`}
                     />
@@ -468,7 +442,7 @@ const ResultComp = React.forwardRef<HTMLDivElement, Props>(
         </Card>
       </div>
     );
-  },
+  }
 );
 
 export default function Lookup({ data, target }: Props) {
@@ -483,17 +457,17 @@ export default function Lookup({ data, target }: Props) {
   useEffect(() => {
     addHistory(target);
 
-    // Add tracking pixel script
+    // 添加跟踪像素脚本
     const script = document.createElement("script");
     script.src = "https://china.tn/pixel/vyneXbR4gSRGqFfs";
     script.defer = true;
     document.body.appendChild(script);
 
-    // Cleanup function to remove the script if needed
+    // 清理函数以在需要时移除脚本
     return () => {
       document.body.removeChild(script);
     };
-  }, [target]); // Dependency array to run effect when target changes
+  }, [target]); // 依赖项数组以在目标变化时运行效果
 
   return (
     <ScrollArea className="w-full h-full overflow-auto">
@@ -555,9 +529,9 @@ export default function Lookup({ data, target }: Props) {
           </Link>
           运营
           <Badge variant="outline" className="ml-1" style={{ backgroundColor: 'black', color: 'white' }}>
-            <span className="ml-1">作者: Minghan Zhang</span> {/* 更新内容 */}
+            <span className="ml-1">作者: Minghan Zhang</span>
           </Badge>
-          <Badge variant="outline">v{NAME}</Badge>  {/* 确保这里使用 NAME */}
+          <Badge variant="outline">v{NAME}</Badge>
         </div>
       </main>
     </ScrollArea>
