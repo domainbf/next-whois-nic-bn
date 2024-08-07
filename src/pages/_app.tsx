@@ -28,7 +28,7 @@ const announcements = [
   "如有问题请邮箱联系：a@f.af",
   "我们提供域名注册和过期域名抢注服务",
   "域名注册及延期交付订单：NIC.BN",
-  "立即可购买的域名列表：domain.bf",
+  "立即可购买的域名列表：DOMAIN.BF",
 ];
 
 export default function App({ Component, pageProps }: AppProps) {
