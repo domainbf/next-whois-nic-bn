@@ -10,6 +10,7 @@ import { ThemeProvider } from "@/components/theme-provider";
 import { ThemeToggle } from "@/components/theme-switch";
 import { strEnv } from "@/lib/env";
 import { Inter } from 'next/font/google'; // 导入 Inter 字体
+import React from 'react'; // 导入 React
 
 const inter = Inter({ subsets: ['latin'] }); // 定义 inter 变量
 
@@ -27,8 +28,8 @@ const announcements = [
   "我们不存储或记录您的所有查询内容",
   "如有问题请邮箱联系：a@f.af",
   "我们提供域名注册和过期域名抢注服务",
-  <span>域名注册及延期交付订单：<a href="https://nic.bn" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">NIC.BN</a></span>,
-  <span>立即可购买的域名列表：<a href="https://domain.bf" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">domain.bf</a></span>,
+  <React.Fragment>域名注册及延期交付订单：<a href="https://nic.bn" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">NIC.BN</a></React.Fragment>,
+  <React.Fragment>立即可购买的域名列表：<a href="https://domain.bf" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">domain.bf</a></React.Fragment>,
 ];
 
 export default function App({ Component, pageProps }: AppProps) {
