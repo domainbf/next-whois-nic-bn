@@ -401,6 +401,8 @@ export function getDomainRegex(domain: string): DomainRegex {
     return coRegex;
   } else if (domain.endsWith(".tr")) {
     return trRegex;
+ } else if (domain.endsWith(".cn")) {
+    return kgRegex;
   } else {
     return defaultRegex;
   }
