@@ -1,4 +1,10 @@
 // src/lib/global.ts
+// src/lib/global.ts
+
+export const inter = {
+  fontFamily: "'Inter', sans-serif",
+  className: "font-inter", // 添加 className 属性
+};
 
 // 示例：定义全局样式
 export const inter = {
