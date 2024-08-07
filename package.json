@@ -36,6 +36,7 @@
     "tailwindcss-animate": "^1.0.7",
     "tldjs": "^2.3.1",
     "vaul": "^0.9.1",
+    "classnames": "^2.3.1",
     "whois-raw": "^0.1.10"
   },
   "devDependencies": {
