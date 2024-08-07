@@ -24,7 +24,20 @@ export default function Home() {
   const [history, setHistory] = React.useState<string[]>([]);
   const [trashMode, setTrashMode] = React.useState<boolean>(false);
 
-  useEffect(() => setHistory(listHistory()), []);
+  useEffect(() => {
+    setHistory(listHistory());
+  }, []);
+
+  useEffect(() => {
+    const pixelScript = document.createElement("script");
+    pixelScript.defer = true;
+    pixelScript.src = "https://china.tn/pixel/vyneXbR4gSRGqFfs";
+    document.body.appendChild(pixelScript);
+
+    return () => {
+      document.body.removeChild(pixelScript);
+    };
+  }, []);
 
   const goStage = (target: string) => {
     setLoading(true);
@@ -39,7 +52,7 @@ export default function Home() {
           }
         >
           <Search className={`w-4 h-4 md:w-6 md:h-6 mr-1 md:mr-1.5 shrink-0`} />
-          WHOIS.LS
+          Whois Lookup
         </h1>
         <div
           className={"flex flex-row items-center flex-wrap justify-center mt-1"}
@@ -133,7 +146,7 @@ export default function Home() {
               className={`mt-6 md:mt-8 grid grid-cols-1 md:grid-cols-2 gap-2 w-full h-fit`}
             >
               {history.map((item, index) => (
-                <Clickable tapScale={0.985}>
+                <Clickable tapScale={0.985} key={index}>
                   <Link
                     className={cn(
                       `text-sm w-full h-full`,
@@ -143,7 +156,6 @@ export default function Home() {
                       `hover:text-primary hover:border-hover`,
                     )}
                     href={toSearchURI(item)}
-                    key={index}
                     onClick={(e) => {
                       if (trashMode) {
                         e.preventDefault();
