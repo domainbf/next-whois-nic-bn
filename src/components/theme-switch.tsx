@@ -11,7 +11,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { inter } from "@/lib/fonts";
+import { inter } from "@/lib/global";
 
 export function ThemeToggle() {
   const { setTheme } = useTheme();
@@ -28,15 +28,15 @@ export function ThemeToggle() {
       <DropdownMenuContent align="end" className={inter.className}>
         <DropdownMenuItem onClick={() => setTheme("light")}>
           <Sun className="h-3.5 w-3.5 mr-1.5" />
-          Light
+          非黑
         </DropdownMenuItem>
         <DropdownMenuItem onClick={() => setTheme("dark")}>
           <Moon className="h-3.5 w-3.5 mr-1.5" />
-          Dark
+          即白
         </DropdownMenuItem>
         <DropdownMenuItem onClick={() => setTheme("system")}>
           <Smartphone className="h-3.5 w-3.5 mr-1.5" />
-          System
+          思考
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
