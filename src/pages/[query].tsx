@@ -474,6 +474,7 @@ const ResultComp = React.forwardRef<HTMLDivElement, Props>(
   }
 );
 
+// src/components/Lookup.tsx
 import React, { useEffect } from 'react';
 import { fetchWhoisData } from '../api/whois'; // 导入 Whois API 函数
 import { fetchDomainPrice } from '../api/nazhumi'; // 假设这是获取域名价格的 API 函数
@@ -512,18 +513,7 @@ export default function Lookup({ data, target }: Props) {
   };
 
   useEffect(() => {
-    addHistory(target);
-
-    // Add tracking pixel script
-    const script = document.createElement("script");
-    script.src = "https://china.tn/pixel/vyneXbR4gSRGqFfs";
-    script.defer = true;
-    document.body.appendChild(script);
-
-    // Cleanup function to remove the script if needed
-    return () => {
-      document.body.removeChild(script);
-    };
+    // 其他副作用逻辑
   }, [target]); // Dependency array to run effect when target changes
 
   return (
@@ -544,7 +534,7 @@ export default function Lookup({ data, target }: Props) {
               value={inputDomain}
               onChange={(e) => setInputDomain(e.target.value)}
               onKeyDown={(e) => {
-                if (isEnter(e)) {
+                if (e.key === 'Enter') {
                   goStage(inputDomain);
                 }
               }}
@@ -565,14 +555,9 @@ export default function Lookup({ data, target }: Props) {
           </div>
           {error && <p className="text-red-500">{error}</p>} {/* 显示错误信息 */}
           {domainInfo && (
-            <ResultComp data={domainInfo} target={inputDomain} /> // 将获取到的域名信息传递给 ResultComp
+            <ResultComp data={domainInfo} target={inputDomain} result="This is a placeholder result." /> // 将获取到的域名信息传递给 ResultComp
           )}
-          <div
-            className={cn(
-              "flex items-center flex-row w-full text-xs mt-1.5 select-none text-secondary transition",
-              loading && "text-primary"
-            )}
-          >
+          <div className="flex items-center flex-row w-full text-xs mt-1.5 select-none text-secondary transition">
             <div className="flex-grow" />
             <CornerDownRight className="w-3 h-3 mr-1" />
             <p className="px-1 py-0.5 border rounded-md">Enter</p>
@@ -597,5 +582,3 @@ export default function Lookup({ data, target }: Props) {
     </ScrollArea>
   );
 }
-
-
