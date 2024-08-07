@@ -10,7 +10,6 @@ import { ThemeProvider } from "@/components/theme-provider";
 import { ThemeToggle } from "@/components/theme-switch";
 import { strEnv } from "@/lib/env";
 import { Inter } from 'next/font/google'; // 导入 Inter 字体
-import React from 'react'; // 导入 React
 
 const inter = Inter({ subsets: ['latin'] }); // 定义 inter 变量
 
@@ -25,11 +24,12 @@ const siteKeywords = strEnv(
 );
 
 const announcements = [
-  "我们不存储或记录您的所有查询内容",
-  "如有问题请邮箱联系：a@f.af",
+  "我们不存储个记录您的所有查询内容",
+  "如有问题及反馈可发邮件至：a@f.af",
+  "我们不存储个记录您的所有查询内容",
   "我们提供域名注册和过期域名抢注服务",
-  `域名注册及延期交付订单：<a href="https://nic.bn" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:underline">NIC.BN</a>`,
-  `立即可购买的域名列表：<a href="https://domain.bf" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:underline">domain.bf</a>`,
+  "域名注册、定制、延期交付：NIC.BN",
+  "立即可购买的域名列表：domain.bf",
 ];
 
 export default function App({ Component, pageProps }: AppProps) {
@@ -72,10 +72,7 @@ export default function App({ Component, pageProps }: AppProps) {
             )}
           >
             <img src="/gg.gif" alt="Logo" className="w-8 h-8" />
-            <div
-              className="text-sm"
-              dangerouslySetInnerHTML={{ __html: currentAnnouncement }}
-            />
+            <div className="text-sm">{currentAnnouncement}</div>
           </div>
           <div
             className={cn(
