@@ -471,31 +471,13 @@ const ResultComp = React.forwardRef<HTMLDivElement, Props>(
   },
 );
 
-import React, { useState, useEffect } from "react";
-import { ScrollArea, Input, Button, Loader2, Send, Search, CornerDownRight, Link, Badge } from "./components"; // 假设你有这些组件
-
 export default function Lookup({ data, target }: Props) {
-  const [inputDomain, setInputDomain] = useState<string>(target);
-  const [loading, setLoading] = useState<boolean>(false);
-  const [priceInfo, setPriceInfo] = useState<any>(null);
+  const [inputDomain, setInputDomain] = React.useState<string>(target);
+  const [loading, setLoading] = React.useState<boolean>(false);
 
   const goStage = (target: string) => {
     setLoading(true);
     window.location.href = toSearchURI(inputDomain);
-  };
-
-  const fetchPriceInfo = async (domain: string) => {
-    setLoading(true);
-    try {
-      const response = await fetch(`https://www.nazhumi.com/api/v1?domain=${domain}`);
-      const data = await response.json();
-      setPriceInfo(data);
-    } catch (error) {
-      console.error("Error fetching price info:", error);
-      setPriceInfo(null);
-    } finally {
-      setLoading(false);
-    }
   };
 
   useEffect(() => {
@@ -515,10 +497,18 @@ export default function Lookup({ data, target }: Props) {
 
   return (
     <ScrollArea className="w-full h-full overflow-auto">
-      <main className="relative w-full min-h-full grid place-items-center px-4 pt-20 pb-6">
-        <div className="flex flex-col items-center w-full h-fit max-w-[568px] m-2">
-          <h1 className="text-lg md:text-2xl lg:text-3xl font-bold flex flex-row items-center select-none">
-            <Search className="w-4 h-4 md:w-6 md:h-6 mr-1 md:mr-1.5 shrink-0" />
+      <main
+        className="relative w-full min-h-full grid place-items-center px-4 pt-20 pb-6"
+      >
+        <div
+          className="flex flex-col items-center w-full h-fit max-w-[568px] m-2"
+        >
+          <h1
+            className="text-lg md:text-2xl lg:text-3xl font-bold flex flex-row items-center select-none"
+          >
+            <Search
+              className="w-4 h-4 md:w-6 md:h-6 mr-1 md:mr-1.5 shrink-0"
+            />
             域名信息查询
           </h1>
           <p className="text-md text-center text-secondary">
@@ -550,19 +540,6 @@ export default function Lookup({ data, target }: Props) {
               )}
             </Button>
           </div>
-          <Button
-            className="mt-4"
-            onClick={() => fetchPriceInfo(inputDomain)}
-            disabled={loading}
-          >
-            {loading ? "查询中..." : "查询价格信息"}
-          </Button>
-          {priceInfo && (
-            <div className="mt-4 w-full text-center text-secondary">
-              <h2 className="text-xl font-bold">价格信息</h2>
-              <pre className="text-left">{JSON.stringify(priceInfo, null, 2)}</pre>
-            </div>
-          )}
           <div
             className={cn(
               "flex items-center flex-row w-full text-xs mt-1.5 select-none text-secondary transition",
@@ -575,8 +552,10 @@ export default function Lookup({ data, target }: Props) {
           </div>
           <ResultComp data={data} target={target} />
         </div>
-        <div className="mt-12 text-sm flex flex-row items-center font-medium text-muted-foreground select-none">
-          Powered by{" "}
+        <div
+          className="mt-12 text-sm flex flex-row items-center font-medium text-muted-foreground select-none"
+        >
+          Maintained by{" "}
           <Link
             href="https://nic.bn"
             target="_blank"
@@ -584,11 +563,10 @@ export default function Lookup({ data, target }: Props) {
           >
             NIC.BN
           </Link>
-          鸣谢作者：Minghan Zhang
+          Author: Minghan Zhang
           <Badge variant="outline">v{VERSION}</Badge>
         </div>
       </main>
     </ScrollArea>
   );
 }
-
