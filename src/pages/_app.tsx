@@ -9,7 +9,9 @@ import Link from "next/link";
 import { ThemeProvider } from "@/components/theme-provider";
 import { ThemeToggle } from "@/components/theme-switch";
 import { strEnv } from "@/lib/env";
+import { Inter } from 'next/font/google'; // 导入 Inter 字体
 
+const inter = Inter({ subsets: ['latin'] }); // 定义 inter 变量
 
 const siteTitle = strEnv("NEXT_PUBLIC_SITE_TITLE", "Whois");
 const siteDescription = strEnv(
@@ -61,7 +63,7 @@ export default function App({ Component, pageProps }: AppProps) {
         enableSystem
         disableTransitionOnChange
       >
-        <div className={cn(`relative w-full h-full`, inter.className)}>
+        <div className={cn(`relative w-full h-full`, inter.className)}> {/* 使用 inter.className */}
           <div
             className={cn(
               `flex flex-row items-center space-x-4`,
