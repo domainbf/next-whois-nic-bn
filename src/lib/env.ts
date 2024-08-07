@@ -1,4 +1,5 @@
-export const VERSION = "感谢作者";
+ export const NAME = "感谢作者:Minghan Zhang"; 
+
 
 export const HISTORY_LIMIT: number = intEnv("NEXT_PUBLIC_HISTORY_LIMIT", 6);
 // The maximum number of history items to keep in the local storage
