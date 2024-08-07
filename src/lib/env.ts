@@ -30,3 +30,11 @@ function intEnv(name: string, defaultValue: number): number {
 export function strEnv(name: string, defaultValue?: string): string {
   return process.env[name] || defaultValue || "";
 }
+
+// 示例版本号
+const version = "v1.0.0"; // 示例版本号
+const cleanedVersion = version.replace(/v/g, ""); // 去掉 "v"
+
+// 使用 cleanedVersion
+console.log(`项目名称: ${NAME}`); // 输出项目名称
+console.log(`版本: ${cleanedVersion}`); // 输出去掉 "v" 的版本号
