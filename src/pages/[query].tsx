@@ -357,7 +357,6 @@ function ResultTable({ result, target }: ResultTableProps) {
 const ResultComp = React.forwardRef<HTMLDivElement, Props>(
   ({ data, target, isCapture }: Props, ref) => {
     const copy = useClipboard();
-
     const captureObject = React.useRef<HTMLDivElement>(null);
     const capture = useImageCapture(captureObject);
 
@@ -376,9 +375,12 @@ const ResultComp = React.forwardRef<HTMLDivElement, Props>(
           className={cn("shadow", isCapture && "w-fit max-w-[768px]")}
         >
           <CardHeader>
-            <CardTitle
-              className={`flex flex-row items-center text-lg md:text-xl`}
-            >
+            {/* 新增的内容 */}
+            <div className="mb-2">
+              <h2 className="text-lg font-semibold">域名信息概览</h2>
+              <p className="text-sm text-gray-600">以下是关于域名的详细信息：</p>
+            </div>
+            <CardTitle className={`flex flex-row items-center text-lg md:text-xl`}>
               详情如下:
               {!isCapture && (
                 <Drawer>
@@ -470,6 +472,7 @@ const ResultComp = React.forwardRef<HTMLDivElement, Props>(
     );
   },
 );
+
 
 export default function Lookup({ data, target }: Props) {
   const [inputDomain, setInputDomain] = React.useState<string>(target);
