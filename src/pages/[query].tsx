@@ -379,7 +379,7 @@ const ResultComp = React.forwardRef<HTMLDivElement, Props>(
             <CardTitle
               className={`flex flex-row items-center text-lg md:text-xl`}
             >
-              {result?.status === "registered" ? "已注册" : "未注册"}:
+              {Array.isArray(result) && result.length > 0 && result[0].status === "registered" ? "已注册" : "未注册"}:
               {!isCapture && (
                 <Drawer>
                   <DrawerTrigger asChild>
