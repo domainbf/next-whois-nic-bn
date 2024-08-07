@@ -33,3 +33,26 @@ const cleanedVersion = version.replace(/^v/, ""); // 去掉开头的 "v"
 // 使用 cleanedVersion
 console.log(`项目名称: ${NAME}`); // 输出项目名称
 console.log(`版本: ${cleanedVersion}`); // 输出去掉 "v" 的版本号
+
+// 动态创建黑框和文本
+const container = document.createElement('div');
+container.style.display = 'flex';
+container.style.alignItems = 'center';
+container.style.marginTop = '20px';
+
+const projectNameElement = document.createElement('span');
+projectNameElement.textContent = `项目名称: ${NAME}`;
+container.appendChild(projectNameElement);
+
+const blackBox = document.createElement('div');
+blackBox.textContent = '感谢作者';
+blackBox.style.backgroundColor = 'black';
+blackBox.style.color = 'white';
+blackBox.style.padding = '5px 10px';
+blackBox.style.marginLeft = '10px';
+blackBox.style.borderRadius = '5px';
+
+container.appendChild(blackBox);
+
+// 将黑框和项目名称添加到 body 中
+document.body.appendChild(container);
