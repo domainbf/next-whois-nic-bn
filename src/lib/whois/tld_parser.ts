@@ -7,9 +7,9 @@ import { analyzeWhois } from "@/lib/whois/common_parser";
 export function parseWhoisData(rawData: string, domain: string) {
   // preflight check
   if (!rawData) {
-    throw new Error("No Whois data received");
+    throw new Error("未收到 Whois 数据");
   } else if (rawData.length <= 10) {
-    throw new Error(`Bad Whois data received: ${rawData}`);
+    throw new Error(`收到错误的 Whois 数据: ${rawData}`);
   }
 
   const filterRegex = getDomainRegex(domain.toLowerCase());
@@ -24,7 +24,7 @@ export function parseWhoisData(rawData: string, domain: string) {
     rawContent.includes("no entries found") ||
     rawContent.includes("no data found")
   ) {
-    throw new Error("Domain or TLD not found");
+    throw new Error("未找到域TLD服务器");
   }
 
   if (
@@ -39,7 +39,7 @@ export function parseWhoisData(rawData: string, domain: string) {
     rawContent.includes("malformed query") ||
     rawContent.includes("malformed request")
   ) {
-    throw new Error("Invalid format");
+    throw new Error("请输入正确内容！");
   }
 
   // rateLimited Match
@@ -49,7 +49,7 @@ export function parseWhoisData(rawData: string, domain: string) {
       rawContent.includes("rate limit") ||
       rawContent.includes("server too busy"))
   ) {
-    throw new Error("Rate Limited");
+    throw new Error("慢一点，太快了受不了。");
   }
 
   // pre set result
