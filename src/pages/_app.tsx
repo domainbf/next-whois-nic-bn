@@ -17,7 +17,7 @@ function strEnv(variableName: string, defaultValue: string): string {
   return process.env[variableName] || defaultValue;
 }
 
-const siteTitle = strEnv("NEXT_PUBLIC_SITE_TITLE", "Whois");
+const siteTitle = strEnv("NEXT_PUBLIC_SITE_TITLE", "Whois.ls");
 const siteDescription = strEnv(
   "NEXT_PUBLIC_SITE_DESCRIPTION",
   "Whois Lookup Tool, Support Domain/IPv4/IPv6/ASN/CIDR Whois Lookup, Provided Beautiful, Clean and Simple UI."
@@ -26,6 +26,9 @@ const siteKeywords = strEnv(
   "NEXT_PUBLIC_SITE_KEYWORDS",
   "Whois, Lookup, Tool, whois"
 );
+
+// 使用本地图片
+const siteImage = "/gg.gif"; // 相对路径指向 public 文件夹中的图片
 
 const announcements = [
   { text: "我们不存储不记录查询记录" },
@@ -60,6 +63,19 @@ export default function App({ Component, pageProps }: AppProps) {
         <meta name="description" content={siteDescription} />
         <meta name="keywords" content={siteKeywords} />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+        {/* Open Graph meta tags */}
+        <meta property="og:title" content={siteTitle} />
+        <meta property="og:description" content={siteDescription} />
+        <meta property="og:image" content={siteImage} />
+        <meta property="og:url" content={typeof window !== 'undefined' ? window.location.href : ''} />
+        <meta property="og:type" content="website" />
+
+        {/* Twitter Card meta tags */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content={siteTitle} />
+        <meta name="twitter:description" content={siteDescription} />
+        <meta name="twitter:image" content={siteImage} />
       </Head>
       <Toaster />
       <ThemeProvider
@@ -75,7 +91,7 @@ export default function App({ Component, pageProps }: AppProps) {
               `absolute top-4 left-4 z-50` // 使用 absolute 使其在页面顶部固定
             )}
           >
-            <img src="/gg.gif" alt="Logo" className="w-8 h-8" />
+            <img src={siteImage} alt="Logo" className="w-8 h-8" />
             <div className="text-sm">
               {currentAnnouncement.link ? (
                 <a
