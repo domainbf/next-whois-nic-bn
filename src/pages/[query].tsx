@@ -474,9 +474,6 @@ const ResultComp = React.forwardRef<HTMLDivElement, Props>(
 export default function Lookup({ data, target }: Props) {
   const [inputDomain, setInputDomain] = React.useState<string>(target);
   const [loading, setLoading] = React.useState<boolean>(false);
-  const copy = useClipboard(); // 使用复制功能
-  const status = true; // 示例状态，您可以根据需要调整
-  const isCapture = false; // 示例状态，您可以根据需要调整
 
   const goStage = (target: string) => {
     setLoading(true);
@@ -567,11 +564,9 @@ export default function Lookup({ data, target }: Props) {
             NIC.BN
           </Link>
           运营
-          <Badge variant="outline" className="ml-1 cursor-pointer" onClick={() => copy("fixed-domain.com")}>
-            <div className={cn("w-2 h-2 shrink-0 rounded-full", status ? "bg-green-500" : "bg-red-500")} />
-            <p className={cn("grow", !isCapture && `text-ellipsis overflow-hidden`)}>
-              fixed-domain.com {/* 固定的内容 */}
-            </p>
+          <Badge variant="outline" className="ml-1">
+            <div className="w-2 h-2 shrink-0 rounded-full bg-black" /> {/* 黑色圆点 */}
+            <span className="ml-1">作者: Minghan Zhang</span> {/* 更新内容 */}
           </Badge>
           <Badge variant="outline">v{NAME}</Badge>  {/* 确保这里使用 NAME */}
         </div>
