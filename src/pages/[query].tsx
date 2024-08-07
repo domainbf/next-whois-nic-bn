@@ -478,7 +478,7 @@ const ResultComp = React.forwardRef<HTMLDivElement, Props>(
 import React, { useEffect } from 'react';
 import { fetchWhoisData } from '../api/whois'; // 导入 Whois API 函数
 import { fetchDomainPrice } from '../api/nazhumi'; // 假设这是获取域名价格的 API 函数
-import { Button, Input, Loader2, Badge, Link, ScrollArea } from './YourComponentLibrary'; // 根据实际情况导入组件
+import { Button, Input as CustomInput, Loader2, Badge, Link, ScrollArea } from './YourComponentLibrary'; // 使用别名导入 Input
 import ResultComp from './ResultComp'; // 确保 ResultComp 组件的路径正确
 import { Search, Send, CornerDownRight } from 'lucide-react'; // 根据实际情况导入图标
 
@@ -528,7 +528,7 @@ export default function Lookup({ data, target }: Props) {
             请在下方输入要查找的域名或IP等信息
           </p>
           <div className="relative flex flex-row items-center w-full mt-2">
-            <Input
+            <CustomInput // 使用别名
               className="w-full text-center transition-all duration-300 hover:shadow"
               placeholder="domain name (e.g. google.com, 8.8.8.8)"
               value={inputDomain}
