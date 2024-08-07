@@ -28,8 +28,8 @@ const announcements = [
   "我们不存储或记录您的所有查询内容",
   "如有问题请邮箱联系：a@f.af",
   "我们提供域名注册和过期域名抢注服务",
-  <React.Fragment>域名注册及延期交付订单：<a href="https://nic.bn" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">NIC.BN</a></React.Fragment>,
-  <React.Fragment>立即可购买的域名列表：<a href="https://domain.bf" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">domain.bf</a></React.Fragment>,
+  `域名注册及延期交付订单：<a href="https://nic.bn" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:underline">NIC.BN</a>`,
+  `立即可购买的域名列表：<a href="https://domain.bf" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:underline">domain.bf</a>`,
 ];
 
 export default function App({ Component, pageProps }: AppProps) {
@@ -72,7 +72,10 @@ export default function App({ Component, pageProps }: AppProps) {
             )}
           >
             <img src="/gg.gif" alt="Logo" className="w-8 h-8" />
-            <div className="text-sm">{currentAnnouncement}</div>
+            <div
+              className="text-sm"
+              dangerouslySetInnerHTML={{ __html: currentAnnouncement }}
+            />
           </div>
           <div
             className={cn(
