@@ -223,17 +223,17 @@ function ResultTable({ result, target }: ResultTableProps) {
             hidden={!result.cidr || result.cidr === "Unknown"}
           />
           <Row
-            name={`Net Type`}
+            name={`类型`}
             value={result.netType}
             hidden={!result.netType || result.netType === "Unknown"}
           />
           <Row
-            name={`Net Name`}
+            name={`公司`}
             value={result.netName}
             hidden={!result.netName || result.netName === "Unknown"}
           />
           <Row
-            name={`INet Num`}
+            name={`IP段`}
             value={result.inetNum}
             hidden={!result.inetNum || result.inetNum === "Unknown"}
           />
@@ -243,12 +243,12 @@ function ResultTable({ result, target }: ResultTableProps) {
             hidden={!result.inet6Num || result.inet6Num === "Unknown"}
           />
           <Row
-            name={`Net Range`}
+            name={`范围`}
             value={result.netRange}
             hidden={!result.netRange || result.netRange === "Unknown"}
           />
           <Row
-            name={`Origin AS`}
+            name={`源地`}
             value={result.originAS}
             hidden={!result.originAS || result.originAS === "Unknown"}
           />
@@ -293,7 +293,7 @@ function ResultTable({ result, target }: ResultTableProps) {
             }
           />
           <Row
-            name={`地址:`}
+            name={`城市地址:`}
             value={result.registrantProvince}
             hidden={
               !result.registrantProvince ||
@@ -301,7 +301,7 @@ function ResultTable({ result, target }: ResultTableProps) {
             }
           />
           <Row
-            name={`国家:`}
+            name={`国家代码:`}
             value={result.registrantCountry}
             hidden={
               !result.registrantCountry ||
@@ -555,7 +555,7 @@ export default function Lookup({ data, target }: Props) {
         <div
           className="mt-12 text-sm flex flex-row items-center font-medium text-muted-foreground select-none"
         >
-          © 2024 by{" "}
+          © 2024 由{" "}
           <Link
             href="https://nic.bn"
             target="_blank"
@@ -564,7 +564,7 @@ export default function Lookup({ data, target }: Props) {
             NIC.BN
           </Link>
           运营
-          <Badge variant="outline">v{VERSION}</Badge>
+          <Badge variant="outline">v{NAME}</Badge>
         </div>
       </main>
     </ScrollArea>
