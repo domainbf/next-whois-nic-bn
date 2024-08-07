@@ -40,7 +40,7 @@ export function useImageCapture(el: React.RefObject<HTMLElement>) {
   return async (filename: string, type?: CaptureType) => {
     try {
       await captureImage(filename, el, type);
-      toast.success("Saved!");
+      toast.success("如果未能正常下载，请更换浏览器重试，推荐火狐/谷歌！");
     } catch (e) {
       console.error(e);
 
