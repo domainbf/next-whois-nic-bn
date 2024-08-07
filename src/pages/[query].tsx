@@ -1,6 +1,7 @@
 import { lookupWhois } from "@/lib/whois/lookup";
 import {
   cleanDomainQuery,
+  cn,
   isEnter,
   toReadableISODate,
   toSearchURI,
@@ -47,7 +48,6 @@ import ErrorArea from "@/components/items/error-area";
 import RichTextarea from "@/components/items/rich-textarea";
 import InfoText from "@/components/items/info-text";
 import Clickable from "@/components/motion/clickable";
-import cn from "classnames"; // 确保 cn 只被导入一次
 
 type Props = {
   data: WhoisResult;
@@ -357,17 +357,18 @@ function ResultTable({ result, target }: ResultTableProps) {
 const ResultComp = React.forwardRef<HTMLDivElement, Props>(
   ({ data, target, isCapture }: Props, ref) => {
     const copy = useClipboard();
+
     const captureObject = React.useRef<HTMLDivElement>(null);
     const capture = useImageCapture(captureObject);
-    const { status, result, error, time } = data;
 
-    const isRegistered = result && result.length > 0 && result.some(r => r.status === "registered");
+    const { status, result, error, time } = data;
 
     return (
       <div
         className={cn(
           "w-full h-fit mt-4",
-          isCapture && "flex flex-col items-center m-0 p-4 w-full bg-background",
+          isCapture &&
+            "flex flex-col items-center m-0 p-4 w-full bg-background",
         )}
       >
         <Card
@@ -378,7 +379,7 @@ const ResultComp = React.forwardRef<HTMLDivElement, Props>(
             <CardTitle
               className={`flex flex-row items-center text-lg md:text-xl`}
             >
-              {isRegistered ? "已注册" : "未注册"}:
+              详情如下:
               {!isCapture && (
                 <Drawer>
                   <DrawerTrigger asChild>
@@ -451,11 +452,12 @@ const ResultComp = React.forwardRef<HTMLDivElement, Props>(
               ) : (
                 <div className={`flex flex-col h-fit w-full mt-2`}>
                   <ResultTable result={result} target={target} />
+
                   {!isCapture && (
                     <RichTextarea
                       className={`mt-2`}
                       name={`原始whois数据可复制及下载👉`}
-                      value={result?.[0]?.rawWhoisContent} // 假设取第一个对象的 rawWhoisContent
+                      value={result?.rawWhoisContent}
                       saveFileName={`${target.replace(/\./g, "-")}-whois.txt`}
                     />
                   )}
@@ -468,8 +470,6 @@ const ResultComp = React.forwardRef<HTMLDivElement, Props>(
     );
   },
 );
-
-export default ResultComp;
 
 export default function Lookup({ data, target }: Props) {
   const [inputDomain, setInputDomain] = React.useState<string>(target);
@@ -568,7 +568,7 @@ export default function Lookup({ data, target }: Props) {
           >
             NIC.BN
           </Link>
-          Ltd
+          鸣谢作者：Minghan Zhang
           <Badge variant={`outline`}>v{VERSION}</Badge>
         </div>
       </main>
