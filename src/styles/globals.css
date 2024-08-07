@@ -104,6 +104,19 @@
 
     --shadow: #ffffff05 !important;
   }
+
+  /* 防止输入框缩放 */
+  input, textarea {
+    font-size: 16px; /* 确保输入框字体大小为 16px 或更大 */
+    touch-action: manipulation; /* 防止触摸缩放 */
+    user-select: none; /* 禁止用户选择文本 */
+  }
+
+  /* 添加以下样式以防止结果页面缩放 */
+  body, html {
+    touch-action: manipulation; /* 防止触摸缩放 */
+    overflow: hidden; /* 防止页面滚动 */
+  }
 }
 
 @layer base {
@@ -140,5 +153,4 @@ textarea::-webkit-scrollbar {
 }
 
 .no-capture {
-
 }
