@@ -1,3 +1,4 @@
+// src/components/DomainSearch.tsx
 import React, { useState } from 'react';
 import { fetchDomainPrices } from '../api/nazhumi'; // 假设这是获取价格的 API
 import { fetchWhoisData } from '../api/whois'; // 假设这是获取 Whois 数据的 API
