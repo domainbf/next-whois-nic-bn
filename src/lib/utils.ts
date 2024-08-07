@@ -45,7 +45,7 @@ async function copyClipboard(text: string) {
   el.focus();
   el.select();
   el.setSelectionRange(0, text.length);
-  document.execCommand("copy");
+  document.execCommand("复制");
   document.body.removeChild(el);
 }
 
@@ -60,12 +60,12 @@ export function useClipboard() {
   return async (text: string) => {
     try {
       await copyClipboard(text);
-      toast.success("Copied!");
+      toast.success("恭喜，已复制成功啦!");
     } catch (e) {
       console.error(e);
 
       const err = e as Error;
-      toast.error(`Failed to copy: ${err.message}`);
+      toast.error(`复制失败: ${err.message}`);
     }
   };
 }
@@ -74,7 +74,7 @@ export function useSaver() {
   return (filename: string, content: string) => {
     try {
       saveAsFile(filename, content);
-      toast.success("Saved!");
+      toast.success("已保存!");
     } catch (e) {
       console.error(e);
 
