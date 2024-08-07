@@ -8,10 +8,14 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { ThemeProvider } from "@/components/theme-provider";
 import { ThemeToggle } from "@/components/theme-switch";
-import { strEnv } from "@/lib/env";
 import { Inter } from 'next/font/google'; // 导入 Inter 字体
 
 const inter = Inter({ subsets: ['latin'] }); // 定义 inter 变量
+
+// 定义 strEnv 函数
+function strEnv(variableName: string, defaultValue: string): string {
+  return process.env[variableName] || defaultValue;
+}
 
 const siteTitle = strEnv("NEXT_PUBLIC_SITE_TITLE", "Whois");
 const siteDescription = strEnv(
@@ -24,12 +28,12 @@ const siteKeywords = strEnv(
 );
 
 const announcements = [
-  "我们不存储个记录您的所有查询内容",
-  "如有问题及反馈可发邮件至：a@f.af",
-  "我们不存储个记录您的所有查询内容",
-  "我们提供域名注册和过期域名抢注服务",
-  "域名注册、定制、延期交付：NIC.BN",
-  "立即可购买的域名列表：domain.bf",
+  { text: "我们不存储或记录您的所有查询内容" },
+  { text: "如有问题及反馈可发邮件至：a@f.af" },
+  { text: "我们不存储或记录您的所有查询内容" },
+  { text: "我们提供域名注册和过期域名抢注服务" },
+  { text: "域名注册、定制、延期交付：NIC.BN", link: "https://nic.bn" },
+  { text: "立即可购买的域名列表：domain.bf", link: "https://domain.bf" },
 ];
 
 export default function App({ Component, pageProps }: AppProps) {
@@ -40,7 +44,7 @@ export default function App({ Component, pageProps }: AppProps) {
       setAnnouncementIndex((prevIndex) =>
         prevIndex === announcements.length - 1 ? 0 : prevIndex + 1
       );
-    }, 3000);
+    }, 3000); // 这里修改显示时间间隔，单位为毫秒（3000ms = 3秒）
 
     return () => {
       clearInterval(timer);
@@ -72,7 +76,20 @@ export default function App({ Component, pageProps }: AppProps) {
             )}
           >
             <img src="/gg.gif" alt="Logo" className="w-8 h-8" />
-            <div className="text-sm">{currentAnnouncement}</div>
+            <div className="text-sm">
+              {currentAnnouncement.link ? (
+                <a
+                  href={currentAnnouncement.link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-blue-600 hover:underline"
+                >
+                  {currentAnnouncement.text}
+                </a>
+              ) : (
+                currentAnnouncement.text
+              )}
+            </div>
           </div>
           <div
             className={cn(
