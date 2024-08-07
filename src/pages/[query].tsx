@@ -474,15 +474,41 @@ const ResultComp = React.forwardRef<HTMLDivElement, Props>(
   }
 );
 
+import React, { useEffect } from 'react';
+import { fetchWhoisData } from '../api/whois'; // 导入 Whois API 函数
+import { fetchDomainPrice } from '../api/nazhumi'; // 假设这是获取域名价格的 API 函数
+import { Button, Input, Loader2, Badge, Link, ScrollArea } from './YourComponentLibrary'; // 根据实际情况导入组件
+import ResultComp from './ResultComp'; // 确保 ResultComp 组件的路径正确
+import { Search, Send, CornerDownRight } from 'lucide-react'; // 根据实际情况导入图标
 
+interface Props {
+  data: any; // 根据实际数据结构定义类型
+  target: string;
+}
 
 export default function Lookup({ data, target }: Props) {
   const [inputDomain, setInputDomain] = React.useState<string>(target);
   const [loading, setLoading] = React.useState<boolean>(false);
+  const [domainInfo, setDomainInfo] = React.useState<any>(null); // 新增状态存储域名信息
+  const [error, setError] = React.useState<string | null>(null); // 新增状态存储错误信息
 
-  const goStage = (target: string) => {
+  const goStage = async (target: string) => {
     setLoading(true);
-    window.location.href = toSearchURI(inputDomain);
+    setError(null); // 清除之前的错误信息
+
+    try {
+      // 获取域名价格信息
+      const priceData = await fetchDomainPrice(inputDomain);
+      // 获取 Whois 数据
+      const whoisData = await fetchWhoisData(inputDomain);
+      
+      // 更新状态
+      setDomainInfo({ price: priceData, whois: whoisData });
+    } catch (err) {
+      setError('获取域名信息失败，请重试。');
+    } finally {
+      setLoading(false);
+    }
   };
 
   useEffect(() => {
@@ -537,6 +563,10 @@ export default function Lookup({ data, target }: Props) {
               )}
             </Button>
           </div>
+          {error && <p className="text-red-500">{error}</p>} {/* 显示错误信息 */}
+          {domainInfo && (
+            <ResultComp data={domainInfo} target={inputDomain} /> // 将获取到的域名信息传递给 ResultComp
+          )}
           <div
             className={cn(
               "flex items-center flex-row w-full text-xs mt-1.5 select-none text-secondary transition",
@@ -547,7 +577,6 @@ export default function Lookup({ data, target }: Props) {
             <CornerDownRight className="w-3 h-3 mr-1" />
             <p className="px-1 py-0.5 border rounded-md">Enter</p>
           </div>
-          <ResultComp data={data} target={target} />
         </div>
         <div className="mt-12 text-sm flex flex-row items-center font-medium text-muted-foreground select-none">
           © 2024 由{" "}
@@ -560,11 +589,13 @@ export default function Lookup({ data, target }: Props) {
           </Link>
           运营
           <Badge variant="outline" className="ml-1" style={{ backgroundColor: 'black', color: 'white' }}>
-            <span className="ml-1">作者: Minghan Zhang</span> {/* 更新内容 */}
+            <span className="ml-1">作者: Minghan Zhang</span>
           </Badge>
-          <Badge variant="outline">v{NAME}</Badge>  {/* 确保这里使用 NAME */}
+          <Badge variant="outline">v{NAME}</Badge>
         </div>
       </main>
     </ScrollArea>
   );
 }
+
+
