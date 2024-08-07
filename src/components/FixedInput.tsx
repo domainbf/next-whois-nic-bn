@@ -17,7 +17,7 @@ import Link from "next/link";
 import { cn, isEnter, toSearchURI } from "@/lib/utils";
 import { addHistory, listHistory, removeHistory } from "@/lib/history";
 import ResultComp from './ResultComp';
-import { VERSION } from "@/lib/env";
+import { NAME } from "@/lib/env";
 
 interface FixedInputProps {
   inputDomain: string;
