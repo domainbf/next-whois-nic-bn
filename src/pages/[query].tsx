@@ -354,21 +354,32 @@ function ResultTable({ result, target }: ResultTableProps) {
   );
 }
 
+import React from 'react';
+import { useClipboard } from 'some-clipboard-hook'; // 假设的剪贴板钩子
+import { useImageCapture } from 'some-image-capture-hook'; // 假设的图像捕获钩子
+import { Card, CardHeader, CardTitle, CardContent } from 'some-card-component'; // 假设的卡片组件
+import { Drawer, DrawerTrigger, DrawerContent, DrawerHeader, DrawerTitle, DrawerClose, DrawerFooter } from 'some-drawer-component'; // 假设的抽屉组件
+import { Button, Badge, Clickable } from 'some-button-component'; // 假设的按钮组件
+import { ResultTable } from 'some-result-table-component'; // 假设的结果表组件
+import { RichTextarea } from 'some-rich-textarea-component'; // 假设的富文本区域组件
+import { ErrorArea } from 'some-error-area-component'; // 假设的错误区域组件
+import cn from 'classnames'; // 假设的类名合并库
+
 const ResultComp = React.forwardRef<HTMLDivElement, Props>(
   ({ data, target, isCapture }: Props, ref) => {
     const copy = useClipboard();
-
     const captureObject = React.useRef<HTMLDivElement>(null);
     const capture = useImageCapture(captureObject);
-
     const { status, result, error, time } = data;
+
+    // 修改 result 的使用方式，假设 result 现在是一个对象数组
+    const isRegistered = result && result.length > 0 && result.some(r => r.status === "registered");
 
     return (
       <div
         className={cn(
           "w-full h-fit mt-4",
-          isCapture &&
-            "flex flex-col items-center m-0 p-4 w-full bg-background",
+          isCapture && "flex flex-col items-center m-0 p-4 w-full bg-background",
         )}
       >
         <Card
@@ -379,7 +390,7 @@ const ResultComp = React.forwardRef<HTMLDivElement, Props>(
             <CardTitle
               className={`flex flex-row items-center text-lg md:text-xl`}
             >
-              {result && result.length > 0 && result[0].status === "registered" ? "已注册" : "未注册"}:
+              {isRegistered ? "已注册" : "未注册"}:
               {!isCapture && (
                 <Drawer>
                   <DrawerTrigger asChild>
@@ -452,12 +463,11 @@ const ResultComp = React.forwardRef<HTMLDivElement, Props>(
               ) : (
                 <div className={`flex flex-col h-fit w-full mt-2`}>
                   <ResultTable result={result} target={target} />
-
                   {!isCapture && (
                     <RichTextarea
                       className={`mt-2`}
                       name={`原始whois数据可复制及下载👉`}
-                      value={result?.rawWhoisContent}
+                      value={result?.[0]?.rawWhoisContent} // 假设取第一个对象的 rawWhoisContent
                       saveFileName={`${target.replace(/\./g, "-")}-whois.txt`}
                     />
                   )}
@@ -470,6 +480,9 @@ const ResultComp = React.forwardRef<HTMLDivElement, Props>(
     );
   },
 );
+
+export default ResultComp;
+
 
 export default function Lookup({ data, target }: Props) {
   const [inputDomain, setInputDomain] = React.useState<string>(target);
