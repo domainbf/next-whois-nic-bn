@@ -72,7 +72,7 @@ export default function App({ Component, pageProps }: AppProps) {
           <div
             className={cn(
               `flex flex-row items-center space-x-4`,
-              `absolute top-4 left-4 z-50`
+              `fixed top-4 left-4 z-50` // 使用 fixed 使其固定在左上角
             )}
           >
             <img src="/gg.gif" alt="Logo" className="w-8 h-8" />
