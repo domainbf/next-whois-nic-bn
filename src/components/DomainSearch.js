@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
-import { fetchDomainPrices } from '../api/nazhumi';
+import { fetchDomainPrices } from '../api/nazhumi'; // 假设这是获取价格的 API
+import { fetchWhoisData } from '../api/whois'; // 假设这是获取 Whois 数据的 API
+import ResultComp from './ResultComp'; // 导入 ResultComp 组件
 
 const DomainSearch = () => {
   const [domain, setDomain] = useState('');
-  const [registrar, setRegistrar] = useState('aliyun'); // 默认注册商
-  const [prices, setPrices] = useState(null);
+  const [data, setData] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
@@ -14,8 +15,13 @@ const DomainSearch = () => {
     setError('');
 
     try {
-      const data = await fetchDomainPrices(domain, registrar);
-      setPrices(data);
+      // 获取 Whois 数据
+      const whoisData = await fetchWhoisData(domain);
+      // 获取价格信息
+      const priceData = await fetchDomainPrices(domain, 'aliyun'); // 替换为适当的注册商
+
+      // 将 Whois 数据和价格合并
+      setData({ ...whoisData, price: priceData });
     } catch (err) {
       setError(err.message);
     } finally {
@@ -38,15 +44,9 @@ const DomainSearch = () => {
 
       {loading && <p>加载中...</p>}
       {error && <p style={{ color: 'red' }}>{error}</p>}
-      
-      {prices && (
-        <div>
-          <h3>价格信息</h3>
-          <p>注册商: {prices.registrarname}</p>
-          <p>注册价格: {prices.new !== 'n/a' ? `${prices.new} ${prices.currency}` : '不适用'}</p>
-          <p>续费价格: {prices.renew !== 'n/a' ? `${prices.renew} ${prices.currency}` : '不适用'}</p>
-          <p>转入价格: {prices.transfer !== 'n/a' ? `${prices.transfer} ${prices.currency}` : '不适用'}</p>
-        </div>
+
+      {data && (
+        <ResultComp data={data} target={domain} isCapture={false} />
       )}
     </div>
   );
