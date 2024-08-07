@@ -1,7 +1,6 @@
 import { lookupWhois } from "@/lib/whois/lookup";
 import {
   cleanDomainQuery,
-  cn,
   isEnter,
   toReadableISODate,
   toSearchURI,
@@ -48,6 +47,7 @@ import ErrorArea from "@/components/items/error-area";
 import RichTextarea from "@/components/items/rich-textarea";
 import InfoText from "@/components/items/info-text";
 import Clickable from "@/components/motion/clickable";
+import cn from "classnames"; // 确保 cn 只被导入一次
 
 type Props = {
   data: WhoisResult;
@@ -354,17 +354,6 @@ function ResultTable({ result, target }: ResultTableProps) {
   );
 }
 
-import React from 'react';
-import { useClipboard } from 'some-clipboard-hook'; // 假设的剪贴板钩子
-import { useImageCapture } from 'some-image-capture-hook'; // 假设的图像捕获钩子
-import { Card, CardHeader, CardTitle, CardContent } from 'some-card-component'; // 假设的卡片组件
-import { Drawer, DrawerTrigger, DrawerContent, DrawerHeader, DrawerTitle, DrawerClose, DrawerFooter } from 'some-drawer-component'; // 假设的抽屉组件
-import { Button, Badge, Clickable } from 'some-button-component'; // 假设的按钮组件
-import { ResultTable } from 'some-result-table-component'; // 假设的结果表组件
-import { RichTextarea } from 'some-rich-textarea-component'; // 假设的富文本区域组件
-import { ErrorArea } from 'some-error-area-component'; // 假设的错误区域组件
-import cn from 'classnames'; // 假设的类名合并库
-
 const ResultComp = React.forwardRef<HTMLDivElement, Props>(
   ({ data, target, isCapture }: Props, ref) => {
     const copy = useClipboard();
@@ -372,7 +361,6 @@ const ResultComp = React.forwardRef<HTMLDivElement, Props>(
     const capture = useImageCapture(captureObject);
     const { status, result, error, time } = data;
 
-    // 修改 result 的使用方式，假设 result 现在是一个对象数组
     const isRegistered = result && result.length > 0 && result.some(r => r.status === "registered");
 
     return (
@@ -482,7 +470,6 @@ const ResultComp = React.forwardRef<HTMLDivElement, Props>(
 );
 
 export default ResultComp;
-
 
 export default function Lookup({ data, target }: Props) {
   const [inputDomain, setInputDomain] = React.useState<string>(target);
