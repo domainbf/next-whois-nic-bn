@@ -531,6 +531,7 @@ export default function Lookup({ data, target }: Props) {
                   goStage(inputDomain);
                 }
               }}
+              style={{ flexShrink: 0 }} // 确保输入框不缩放
             />
             <Button
               size={`icon`}
@@ -560,7 +561,7 @@ export default function Lookup({ data, target }: Props) {
         <div
           className={`mt-12 text-sm flex flex-row items-center font-medium text-muted-foreground select-none`}
         >
-          Powered by{" "}
+          Maintained by{" "}
           <Link
             href={`https://nic.bn`}
             target={`_blank`}
@@ -568,7 +569,7 @@ export default function Lookup({ data, target }: Props) {
           >
             NIC.BN
           </Link>
-          鸣谢作者：Minghan Zhang
+          ©️鸣谢作者：Minghan Zhang
           <Badge variant={`outline`}>v{VERSION}</Badge>
         </div>
       </main>
