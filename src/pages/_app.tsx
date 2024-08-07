@@ -102,7 +102,7 @@ export default function App({ Component, pageProps }: AppProps) {
                 <svg
                   role="img"
                   viewBox="0 0 24 24"
-                  xmlns="http://www.w3.org/2000/svg"
+                  xmlns="http://www.w3.org/2000/svg" // Added namespace
                   className={`w-5 h-5 fill-primary`}
                 >
                   <title>Earth</title>
