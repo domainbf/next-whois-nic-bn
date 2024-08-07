@@ -557,6 +557,7 @@ export default function Lookup({ data, target }: Props) {
           >
             NIC.BN
           </Link>
+          Ltd
           <Badge variant={`outline`}>v{VERSION}</Badge>
         </div>
       </main>
