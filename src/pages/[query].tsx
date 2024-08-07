@@ -360,14 +360,13 @@ const ResultComp = React.forwardRef<HTMLDivElement, Props>(
     const captureObject = React.useRef<HTMLDivElement>(null);
     const capture = useImageCapture(captureObject);
 
-    const { status, result, error, time } = data;
+    const { status, result, error, time, price } = data; // 确保 price 包含在 data 中
 
     return (
       <div
         className={cn(
           "w-full h-fit mt-4",
-          isCapture &&
-            "flex flex-col items-center m-0 p-4 w-full bg-background",
+          isCapture && "flex flex-col items-center m-0 p-4 w-full bg-background"
         )}
       >
         <Card
@@ -375,10 +374,12 @@ const ResultComp = React.forwardRef<HTMLDivElement, Props>(
           className={cn("shadow", isCapture && "w-fit max-w-[768px]")}
         >
           <CardHeader>
-            {/* 新增的内容 */}
+            {/* 新增的域名价格信息 */}
             <div className="mb-2">
-              <h2 className="text-lg font-semibold">域名信息概览</h2>
-              <p className="text-sm text-gray-600">以下是关于域名的详细信息：</p>
+              <h3 className="text-md font-semibold">域名价格信息</h3>
+              <p>注册价格: {price?.new} {price?.currency}</p>
+              <p>续费价格: {price?.renew} {price?.currency}</p>
+              <p>转入价格: {price?.transfer} {price?.currency}</p>
             </div>
             <CardTitle className={`flex flex-row items-center text-lg md:text-xl`}>
               详情如下:
@@ -470,8 +471,9 @@ const ResultComp = React.forwardRef<HTMLDivElement, Props>(
         </Card>
       </div>
     );
-  },
+  }
 );
+
 
 
 export default function Lookup({ data, target }: Props) {
