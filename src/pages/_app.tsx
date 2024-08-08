@@ -28,7 +28,7 @@ const siteKeywords = strEnv(
 );
 
 // Use local image
-const siteImage = "/gg.gif"; // Relative path pointing to the public folder image
+const siteImage = "/whois.ls.png"; // Updated to point to the new image
 
 interface Announcement {
   text: string;
@@ -123,7 +123,7 @@ export default function App({ Component, pageProps }: AppProps) {
                 <svg
                   role="img"
                   viewBox="0 0 24 24"
-                  xmlns="http://www.w3.org/2000/svg" // Added namespace
+                  xmlns="" // Added namespace
                   className={`w-5 h-5 fill-primary`}
                 >
                   <title>Earth</title>
