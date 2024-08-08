@@ -546,18 +546,20 @@ export default function Lookup({ data, target }: Props) {
           </div>
           <ResultComp data={data} target={target} />
         </div>
-        <div
-          className={`mt-12 text-sm flex flex-row items-center font-medium text-muted-foreground select-none`}
-        >
-          Powered by{" "}
+        <div className="mt-12 text-sm flex flex-row items-center font-medium text-muted-foreground select-none">
+          © 2024 由{" "}
           <Link
-            href={`https://nic.bn`}
-            target={`_blank`}
-            className={`text-primary underline underline-offset-2 mx-1`}
+            href="https://nic.bn"
+            target="_blank"
+            className="text-primary underline underline-offset-2 mx-1"
           >
             NIC.BN
           </Link>
-          <Badge variant={`outline`}>v{VERSION}</Badge>
+          运营
+          <Badge variant="outline" className="ml-1" style={{ backgroundColor: 'black', color: 'white' }}>
+            <span className="ml-1">作者: Minghan Zhang</span>
+          </Badge>
+          <Badge variant="outline">v{VERSION}</Badge>
         </div>
       </main>
     </ScrollArea>
