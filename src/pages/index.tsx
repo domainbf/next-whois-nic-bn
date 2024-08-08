@@ -23,7 +23,7 @@ interface FixedInputProps {
 const FixedInput: React.FC<FixedInputProps> = ({ inputDomain, setInputDomain, loading, setLoading }) => {
   const goStage = (target: string) => {
     setLoading(true);
-    window.location.href = toSearchURI(inputDomain);
+    window.history.pushState({}, '', toSearchURI(inputDomain));
   };
 
   return (
