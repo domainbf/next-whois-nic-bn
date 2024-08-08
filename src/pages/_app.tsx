@@ -8,11 +8,11 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { ThemeProvider } from "@/components/theme-provider";
 import { ThemeToggle } from "@/components/theme-switch";
-import { Inter } from 'next/font/google'; // 导入 Inter 字体
+import { Inter } from 'next/font/google'; // Import Inter font
 
-const inter = Inter({ subsets: ['latin'] }); // 定义 inter 变量
+const inter = Inter({ subsets: ['latin'] }); // Define inter variable
 
-// 定义 strEnv 函数
+// Define strEnv function
 function strEnv(variableName: string, defaultValue: string): string {
   return process.env[variableName] || defaultValue;
 }
@@ -27,8 +27,8 @@ const siteKeywords = strEnv(
   "Whois, Lookup, Tool, whois"
 );
 
-// 使用本地图片
-const siteImage = "/gg.gif"; // 相对路径指向 public 文件夹中的图片
+// Use local image
+const siteImage = "/gg.gif"; // Relative path pointing to the public folder image
 
 interface Announcement {
   text: string;
@@ -52,7 +52,7 @@ export default function App({ Component, pageProps }: AppProps) {
       setAnnouncementIndex((prevIndex) =>
         prevIndex === announcements.length - 1 ? 0 : prevIndex + 1
       );
-    }, 5000); 
+    }, 5000); // Change announcement every 5 seconds
 
     return () => {
       clearInterval(timer);
@@ -89,11 +89,11 @@ export default function App({ Component, pageProps }: AppProps) {
         enableSystem
         disableTransitionOnChange
       >
-        <div className={cn(`relative w-full h-full`, inter.className)}> {/* 使用 inter.className */}
+        <div className={cn(`relative w-full h-full`, inter.className)}> {/* Use inter.className */}
           <div
             className={cn(
               `flex flex-row items-center space-x-4`,
-              `absolute top-4 left-4 z-50` // 使用 absolute 使其在页面顶部固定
+              `absolute top-4 left-4 z-50` // Absolute positioning to fix at top of page
             )}
           >
             <img src={siteImage} alt="Logo" className="w-8 h-8" />
