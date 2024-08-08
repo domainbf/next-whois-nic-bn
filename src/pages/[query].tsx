@@ -215,7 +215,7 @@ function ResultTable({ result, target }: ResultTableProps) {
               </Button>
             </Link>
           </Row>
-
+          
           {/* IP Whois Only */}
           <Row
             name={`CIDR`}
@@ -293,7 +293,7 @@ function ResultTable({ result, target }: ResultTableProps) {
             }
           />
           <Row
-            name={`地址:`}
+            name={`省份城市:`}
             value={result.registrantProvince}
             hidden={
               !result.registrantProvince ||
@@ -301,7 +301,7 @@ function ResultTable({ result, target }: ResultTableProps) {
             }
           />
           <Row
-            name={`国家:`}
+            name={`国家代码:`}
             value={result.registrantCountry}
             hidden={
               !result.registrantCountry ||
@@ -325,7 +325,7 @@ function ResultTable({ result, target }: ResultTableProps) {
             }
           />
           <Row
-            name={`域名DNS:`}
+            name={`D·N·S:`}
             value={
               <div className={`flex flex-col`}>
                 {result.nameServers.map((ns, index) => (
@@ -379,7 +379,7 @@ const ResultComp = React.forwardRef<HTMLDivElement, Props>(
             <CardTitle
               className={`flex flex-row items-center text-lg md:text-xl`}
             >
-              详情如下:
+              🌒
               {!isCapture && (
                 <Drawer>
                   <DrawerTrigger asChild>
@@ -394,7 +394,7 @@ const ResultComp = React.forwardRef<HTMLDivElement, Props>(
                   </DrawerTrigger>
                   <DrawerContent>
                     <DrawerHeader>
-                      <DrawerTitle>域名卡片</DrawerTitle>
+                      <DrawerTitle>域名信息卡</DrawerTitle>
                       <DrawerClose />
                     </DrawerHeader>
                     <div className={`my-2`}>
@@ -413,7 +413,7 @@ const ResultComp = React.forwardRef<HTMLDivElement, Props>(
                         tapEnabled
                       >
                         <Camera className={`w-4 h-4 mr-2`} />
-                        点击下载
+                        点击下载卡片
                       </Button>
                     </DrawerFooter>
                   </DrawerContent>
