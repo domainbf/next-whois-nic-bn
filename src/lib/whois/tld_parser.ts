@@ -14,33 +14,68 @@ export function parseWhoisData(rawData: string, domain: string) {
 
   const filterRegex = getDomainRegex(domain.toLowerCase());
 
-  // notFound Match
-  const rawContent = rawData.toLowerCase();
-  if (
-    rawContent.match(filterRegex.notFound) ||
-    rawContent.includes("no match") ||
-    rawContent.includes("this query returned 0 objects") ||
-    rawContent.includes("not found") ||
-    rawContent.includes("no entries found") ||
-    rawContent.includes("no data found")
-  ) {
-    throw new Error("未找到域TLD服务器");
+// notFound Match
+const rawContent = rawData.toLowerCase();
+if (
+  rawContent.match(filterRegex.notFound) ||
+  rawContent.includes("no match") ||
+  rawContent.includes("this query returned 0 objects") ||
+  rawContent.includes("not found") ||
+  rawContent.includes("no entries found") ||
+  rawContent.includes("no data found")
+) {
+  if (rawContent.includes("no match")) {
+    throw new Error("该域名未注册或不支持此后缀。");
+  } else if (rawContent.includes("this query returned 0 objects")) {
+    throw new Error("未找到与该域名相关的任何信息。");
+  } else if (rawContent.includes("not found")) {
+    throw new Error("未找到该域名的TLD服务器。");
+  } else if (rawContent.includes("no entries found")) {
+    throw new Error("该域名没有任何条目。");
+  } else if (rawContent.includes("no data found")) {
+    throw new Error("未找到相关数据，请检查域名是否正确。");
+  } else {
+    throw new Error("未找到域名或TLD。");
   }
+}
 
-  if (
-    rawContent.includes("invalid query") ||
-    rawContent.includes("invalid request") ||
-    rawContent.includes("invalid domain name") ||
-    rawContent.includes("invalid input") ||
-    rawContent.includes("invalid object") ||
-    rawContent.includes("invalid syntax") ||
-    rawContent.includes("invalid character") ||
-    rawContent.includes("invalid data") ||
-    rawContent.includes("malformed query") ||
-    rawContent.includes("malformed request")
-  ) {
-    throw new Error("请输入正确内容！");
+// invalid request Match
+if (
+  rawContent.includes("invalid query") ||
+  rawContent.includes("invalid request") ||
+  rawContent.includes("invalid domain name") ||
+  rawContent.includes("invalid input") ||
+  rawContent.includes("invalid object") ||
+  rawContent.includes("invalid syntax") ||
+  rawContent.includes("invalid character") ||
+  rawContent.includes("invalid data") ||
+  rawContent.includes("malformed query") ||
+  rawContent.includes("malformed request")
+) {
+  if (rawContent.includes("invalid query")) {
+    throw new Error("查询无效，请检查您的输入。");
+  } else if (rawContent.includes("invalid request")) {
+    throw new Error("请求无效，请确保格式正确。");
+  } else if (rawContent.includes("invalid domain name")) {
+    throw new Error("域名无效，请检查域名格式。");
+  } else if (rawContent.includes("invalid input")) {
+    throw new Error("输入无效，请提供有效的查询内容。");
+  } else if (rawContent.includes("invalid object")) {
+    throw new Error("对象无效，请检查请求内容。");
+  } else if (rawContent.includes("invalid syntax")) {
+    throw new Error("语法无效，请检查您的查询语法。");
+  } else if (rawContent.includes("invalid character")) {
+    throw new Error("包含无效字符，请检查输入。");
+  } else if (rawContent.includes("invalid data")) {
+    throw new Error("数据无效，请确保输入正确。");
+  } else if (rawContent.includes("malformed query")) {
+    throw new Error("查询格式错误，请检查您的输入。");
+  } else if (rawContent.includes("malformed request")) {
+    throw new Error("请求格式错误，请确保输入的内容符合要求。");
+  } else {
+    throw new Error("请求无效，请检查您的输入。");
   }
+}
 
   // rateLimited Match
   if (
