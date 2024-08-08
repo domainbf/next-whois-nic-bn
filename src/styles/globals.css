@@ -78,7 +78,7 @@
     --popover-foreground: 0 0% 98%;
 
     --primary: 210 40% 98%;
-    --primary-foreground: .2 47.4% 11.2%;
+    --primary-foreground: 222.2 47.4% 11.2%;
 
     --secondary: 217.2 32.6% 17.5%;
     --secondary-foreground: 210 40% 98%;
@@ -105,27 +105,42 @@
     --shadow: #ffffff05 !important;
   }
 
-  /* 防止输入框缩 */
-  input, textarea {
-    font-size: 16px; /*确保输入框字体大小为 16px 或大 */
-    touch-action: none; /* 防止触摸缩放和移动 */
+  /* 防止输入框缩放 */
+  input,
+  textarea {
+    font-size: 16px; /* 确保输入框字体大小为 16px 或更大 */
+    touch-action: manipulation; /* 防止触摸缩放 */
     user-select: none; /* 禁止用户选择文本 */
   }
 
   /* 添加以下样式以防止页面缩放和滚动 */
-  body, html {
-    touch-action: none; /* 防止触摸缩放和移动 */
+  body,
+  html {
+    touch-action: manipulation; /* 防止触摸缩放 */
     overflow: hidden; /* 防止页面滚动 */
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
   }
-}
 
-@layer base {
+  /* 全局应用 */
   * {
     @apply border-border;
   }
   body {
     @apply bg-background text-foreground;
   }
+}
+
+/* 解决 iOS 输入框问题 */
+input[type="text"],
+input[type="email"],
+input[type="number"],
+input[type="password"],
+input[type="tel"],
+input[type="url"] {
+  font-size: 16px; /* 确保在移动设备上输入时不缩放 */
 }
 
 html, body, #__next {
@@ -153,4 +168,5 @@ textarea::-webkit-scrollbar {
 }
 
 .no-capture {
+  user-select: none;
 }
